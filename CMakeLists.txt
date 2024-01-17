@@ -27,25 +27,25 @@ message(STATUS "current Qt version is Qt${QT_VERSION_MAJOR}.${QT_VERSION_MINOR}.
 
 
 # 根据qt版本选择是否使用frameless库，目前frameless库支持qt5.14,qt5.15,qt6.4+,除了上诉版本，都使用不了
-if(${QT_VERSION_MAJOR} EQUAL 5)
-    # qt版本为5，判断是否小版本大于14
-    if(${QT_VERSION_MINOR} GREATER_EQUAL 14)
-        #5.14和5.15可以使用frameless
-        set(SARIBBON_USE_FRAMELESS_LIB ON)
-    else()
-        set(SARIBBON_USE_FRAMELESS_LIB OFF)
-    endif()
-elseif(${QT_VERSION_MAJOR} EQUAL 6)
-    # qt版本为6，判断是否小版本大于6.1
-    if(${QT_VERSION_MINOR} GREATER_EQUAL 1)
-        set(SARIBBON_USE_FRAMELESS_LIB ON)
-    else()
-        #6.0及bug多多无法使用frameless
-        set(SARIBBON_USE_FRAMELESS_LIB OFF)
-    endif()
-endif()
+# if(${QT_VERSION_MAJOR} EQUAL 5)
+#     # qt版本为5，判断是否小版本大于14
+#     if(${QT_VERSION_MINOR} GREATER_EQUAL 14)
+#         #5.14和5.15可以使用frameless
+#         set(SARIBBON_USE_FRAMELESS_LIB ON)
+#     else()
+#         set(SARIBBON_USE_FRAMELESS_LIB OFF)
+#     endif()
+# elseif(${QT_VERSION_MAJOR} EQUAL 6)
+#     # qt版本为6，判断是否小版本大于6.1
+#     if(${QT_VERSION_MINOR} GREATER_EQUAL 1)
+#         set(SARIBBON_USE_FRAMELESS_LIB ON)
+#     else()
+#         #6.0及bug多多无法使用frameless
+#         set(SARIBBON_USE_FRAMELESS_LIB OFF)
+#     endif()
+# endif()
 
-
+set(SARIBBON_USE_FRAMELESS_LIB OFF)
 # 如果是使用frameless库，需要c++17，否则c++11足以
 if(SARIBBON_USE_FRAMELESS_LIB)
     set(CMAKE_CXX_STANDARD 17)
