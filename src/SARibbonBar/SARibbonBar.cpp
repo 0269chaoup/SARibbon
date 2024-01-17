@@ -1106,7 +1106,7 @@ void SARibbonBar::onCurrentRibbonTabChanged(int index)
 {
     QVariant var               = d_ptr->mRibbonTabBar->tabData(index);
     SARibbonCategory* category = nullptr;
-
+    auto a = isMinimumMode();
     if (var.isValid()) {
         _SARibbonTabData p = var.value< _SARibbonTabData >();
         category           = p.category;
@@ -1135,6 +1135,9 @@ void SARibbonBar::onCurrentRibbonTabChanged(int index)
         }
     }
     emit currentRibbonTabChanged(index);
+	if (isMinimumMode()) {
+		setMinimumMode(false);
+	}
 }
 
 /**
@@ -1147,25 +1150,27 @@ void SARibbonBar::onCurrentRibbonTabChanged(int index)
  */
 void SARibbonBar::onCurrentRibbonTabClicked(int index)
 {
+    emit tarBarClicked();
     if (index != d_ptr->mRibbonTabBar->currentIndex()) {
         // 点击的标签不一致通过changed槽去处理
         return;
     }
-    if (this->isMinimumMode()) {
-        if (!this->d_ptr->mStackedContainerWidget->isVisible()) {
-            if (this->d_ptr->mStackedContainerWidget->isPopupMode()) {
-                // 在stackedContainerWidget弹出前，先给tabbar一个QHoverEvent,让tabbar知道鼠标已经移开
-                QHoverEvent ehl(QEvent::HoverLeave,
-                                d_ptr->mRibbonTabBar->mapToGlobal(QCursor::pos()),
-                                d_ptr->mRibbonTabBar->mapToGlobal(QCursor::pos()));
-                QApplication::sendEvent(d_ptr->mRibbonTabBar, &ehl);
-                // 弹出前都调整一下位置，避免移动后位置异常
-                resizeStackedContainerWidget();
-                this->d_ptr->mStackedContainerWidget->setFocus();
-                this->d_ptr->mStackedContainerWidget->exec();
-            }
-        }
-    }
+	/*setMinimumMode(!isMinimumMode());*/
+    //if (this->isMinimumMode()) {
+    //    if (!this->d_ptr->mStackedContainerWidget->isVisible()) {
+    //        if (this->d_ptr->mStackedContainerWidget->isPopupMode()) {
+    //            // 在stackedContainerWidget弹出前，先给tabbar一个QHoverEvent,让tabbar知道鼠标已经移开
+    //            QHoverEvent ehl(QEvent::HoverLeave,
+    //                            d_ptr->mRibbonTabBar->mapToGlobal(QCursor::pos()),
+    //                            d_ptr->mRibbonTabBar->mapToGlobal(QCursor::pos()));
+    //            QApplication::sendEvent(d_ptr->mRibbonTabBar, &ehl);
+    //            // 弹出前都调整一下位置，避免移动后位置异常
+    //            resizeStackedContainerWidget();
+    //            this->d_ptr->mStackedContainerWidget->setFocus();
+    //            this->d_ptr->mStackedContainerWidget->exec();
+    //        }
+    //    }
+    //}
 }
 
 /**
@@ -1177,7 +1182,7 @@ void SARibbonBar::onCurrentRibbonTabClicked(int index)
 void SARibbonBar::onCurrentRibbonTabDoubleClicked(int index)
 {
     Q_UNUSED(index);
-    setMinimumMode(!isMinimumMode());
+    /*setMinimumMode(!isMinimumMode());*/
 }
 
 void SARibbonBar::onContextsCategoryPageAdded(SARibbonCategory* category)

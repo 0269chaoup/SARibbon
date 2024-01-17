@@ -342,6 +342,10 @@ signals:
      */
     void titleBarHeightChanged(int oldHeight, int newHeight);
 
+
+    void tarBarClicked();
+
+
 protected:
     bool eventFilter(QObject* obj, QEvent* e) override;
 
