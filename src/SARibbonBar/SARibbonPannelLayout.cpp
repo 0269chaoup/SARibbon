@@ -17,8 +17,8 @@
         p.drawRect(rect);                                                                                              \
         p.restore();                                                                                                   \
     } while (0)
-
-QMargins SARibbonPannelLayout::s_contentsMargins = QMargins(1, 1, 1, 1);
+//@zzc Modify 修改Wiget 内部 Layout 的margin QMargins(1, 1, 1, 1) -> QMargins(4, 2, 4, 2)
+QMargins SARibbonPannelLayout::s_contentsMargins = QMargins(4, 2, 4, 2);
 
 SARibbonPannelLayout::SARibbonPannelLayout(QWidget* p)
     : QLayout(p), m_columnCount(0), m_expandFlag(false), m_dirty(true)

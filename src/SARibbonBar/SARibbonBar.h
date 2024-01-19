@@ -348,11 +348,12 @@ signals:
 
 protected:
     bool eventFilter(QObject* obj, QEvent* e) override;
-
+    
     // 根据情况重置tabbar的宽度，主要针对wps模式
     int calcMinTabBarWidth() const;
     // 更新
     void updateCategoryTitleToTabName();
+
 protected slots:
     void onWindowTitleChanged(const QString& title);
     void onWindowIconChanged(const QIcon& i);

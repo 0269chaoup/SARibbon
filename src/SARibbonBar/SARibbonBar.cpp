@@ -2244,17 +2244,17 @@ void SARibbonBar::resizeInWpsLiteStyle()
 
 void SARibbonBar::paintTabbarBaseLine(QPainter& painter)
 {
-    painter.save();
-    // 在tabbar下绘制一条线
-    const int lineY = d_ptr->mRibbonTabBar->geometry().bottom();
-    QPen pen(d_ptr->mTabBarBaseLineColor);
-    QMargins border = contentsMargins();
-
-    pen.setWidth(1);
-    pen.setStyle(Qt::SolidLine);
-    painter.setPen(pen);
-    painter.drawLine(QPoint(border.left(), lineY), QPoint(width() - border.right() - 1, lineY));
-    painter.restore();
+    //@zzc Modify 因为当前这条线不支持颜色修改，就不绘制这条线 ，以下代码全部注释
+    //painter.save();
+    //// 在tabbar下绘制一条线
+    //const int lineY = d_ptr->mRibbonTabBar->geometry().bottom();
+    //QPen pen(d_ptr->mTabBarBaseLineColor);
+    //QMargins border = contentsMargins();
+    //pen.setWidth(1);
+    //pen.setStyle(Qt::SolidLine);
+    //painter.setPen(pen);
+    //painter.drawLine(QPoint(border.left(), lineY), QPoint(width() - border.right() - 1, lineY));
+    //painter.restore();
 }
 
 ///

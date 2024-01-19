@@ -40,9 +40,9 @@ void SARibbonQuickAccessBar::addSeparator()
     d_ptr->groupWidget->addSeparator();
 }
 
-void SARibbonQuickAccessBar::addAction(QAction* act)
+void SARibbonQuickAccessBar::addAction(QAction* act, Qt::ToolButtonStyle buttonStyle, QToolButton::ToolButtonPopupMode popMode)
 {
-    d_ptr->groupWidget->addAction(act);
+	d_ptr->groupWidget->addAction(act, buttonStyle, popMode);
 }
 
 void SARibbonQuickAccessBar::addWidget(QWidget* w)
@@ -50,10 +50,11 @@ void SARibbonQuickAccessBar::addWidget(QWidget* w)
     d_ptr->groupWidget->addWidget(w);
 }
 
-void SARibbonQuickAccessBar::addMenu(QMenu* m, QToolButton::ToolButtonPopupMode popMode)
+void SARibbonQuickAccessBar::addMenu(QMenu* m, Qt::ToolButtonStyle buttonStyle, QToolButton::ToolButtonPopupMode popMode)
 {
-    d_ptr->groupWidget->addMenu(m, popMode);
+	d_ptr->groupWidget->addMenu(m, buttonStyle, popMode);
 }
+
 
 /**
  * @brief 获取内部管理的ButtonGroupWidget

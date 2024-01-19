@@ -15,7 +15,7 @@ tmp
 tmp-file
 .$*
 .vs
-
+*.bat
 # vscode 的隐藏文件
 .vscode
 

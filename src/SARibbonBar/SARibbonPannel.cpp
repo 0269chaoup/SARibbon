@@ -52,7 +52,8 @@ public:
     static int s_pannelTitleHeight;  ///< pannel标题栏的全局高度,默认为18
 };
 
-int SARibbonPannel::PrivateData::s_pannelTitleHeight = 15;
+//@zzc Modify 默认是15
+int SARibbonPannel::PrivateData::s_pannelTitleHeight = /*15*/16;
 
 SARibbonPannel::PrivateData::PrivateData(SARibbonPannel* p) : q_ptr(p)
 {
@@ -147,6 +148,12 @@ void SARibbonPannel::setActionToolButtonPopupModeProperty(QAction* action, QTool
     action->setProperty(SA_ActionPropertyName_ToolButtonPopupMode, static_cast< int >(popMode));
 }
 
+void SARibbonPannel::setActionToolButtonStyleProperty(QAction* action, Qt::ToolButtonStyle buttonStyle)
+{
+	Q_CHECK_PTR(action);
+	action->setProperty(SA_ActionPropertyName_ToolButtonStyle, static_cast< int >(buttonStyle));
+}
+
 /**
  * @brief 获取action的ToolButtonPopupMode属性
  * @param action
@@ -161,6 +168,17 @@ QToolButton::ToolButtonPopupMode SARibbonPannel::getActionToolButtonPopupModePro
         return (static_cast< QToolButton::ToolButtonPopupMode >(r));
     }
     return (QToolButton::InstantPopup);
+}
+
+Qt::ToolButtonStyle SARibbonPannel::getActionToolButtonStyleProperty(QAction* action)
+{
+	bool isok = false;
+	int r     = action->property(SA_ActionPropertyName_ToolButtonStyle).toInt(&isok);
+
+	if (isok) {
+		return (static_cast< Qt::ToolButtonStyle >(r));
+	}
+	return (Qt::ToolButtonIconOnly);
 }
 
 /**
@@ -485,15 +503,23 @@ void SARibbonPannel::paintEvent(QPaintEvent* e)
     if (ThreeRowMode == pannelLayoutMode()) {
         const int th = titleHeight();
         QFont f      = font();
-        f.setPixelSize(th * 0.8);
+        //@zzc Modify 按照要求指定 字体的大小
+        //f.setPixelSize(th * 0.8);
+		f.setPixelSize(12);
         p.setFont(f);
+		
         if (d_ptr->m_optionActionButton) {
+			//@zzc 新增绘制Panel TitleBarTextcolor  可以考虑做一个对外开放的接口
+			
             p.drawText(1, height() - th, width() - d_ptr->m_optionActionButton->width() - 4, th, Qt::AlignCenter, pannelName());
 #ifdef SA_RIBBON_DEBUG_HELP_DRAW
             QRect r = QRect(1, height() - th, width() - m_d->m_optionActionButton->width() - 4, th - 2);
             HELP_DRAW_RECT(p, r);
 #endif
         } else {
+            //@zzc Modify 按照要求，修改了PanelTitle 字体的颜色
+			QPen pen(QColor("#FF999999"));
+			p.setPen(pen);
             p.drawText(1, height() - th, width(), th, Qt::AlignCenter, pannelName());
 #ifdef SA_RIBBON_DEBUG_HELP_DRAW
             QRect r = QRect(1, height() - th, width(), th);

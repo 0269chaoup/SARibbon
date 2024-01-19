@@ -19,9 +19,16 @@ public:
 	~SARibbonButtonGroupWidget() Q_DECL_OVERRIDE;
 
 	// 生成并添加一个action
-	QAction* addAction(QAction* a);
-	QAction* addAction(const QString& text, const QIcon& icon, QToolButton::ToolButtonPopupMode popMode = QToolButton::InstantPopup);
-	QAction* addMenu(QMenu* menu, QToolButton::ToolButtonPopupMode popMode = QToolButton::InstantPopup);
+	QAction* addAction(QAction* a,
+	                   Qt::ToolButtonStyle buttonStyle          = Qt::ToolButtonIconOnly,
+	                   QToolButton::ToolButtonPopupMode popMode = QToolButton::DelayedPopup);
+	QAction* addAction(const QString& text,
+	                   const QIcon& icon,
+	                   Qt::ToolButtonStyle buttonStyle          = Qt::ToolButtonIconOnly,
+	                   QToolButton::ToolButtonPopupMode popMode = QToolButton::DelayedPopup);
+	QAction* addMenu(QMenu* menu,
+	                 Qt::ToolButtonStyle buttonStyle          = Qt::ToolButtonIconOnly,
+	                 QToolButton::ToolButtonPopupMode popMode = QToolButton::InstantPopup);
 	QAction* addSeparator();
 	QAction* addWidget(QWidget* w);
 	QSize sizeHint() const Q_DECL_OVERRIDE;
@@ -29,7 +36,8 @@ public:
 	// 设置icon尺寸
 	void setIconSize(const QSize& s);
 	QSize iconSize() const;
-	QAction* addAction(QAction* a, Qt::ToolButtonStyle buttonStyle);
+	// @zzc 合并主线这部分代码 ，这部分代码原本就是自己新增的，
+	/*QAction* addAction(QAction* a, Qt::ToolButtonStyle buttonStyle);*/
 	QWidget* findAction(QAction* action);
 
 signals:
