@@ -90,7 +90,7 @@ public:
             }
             buttonClose = new SAWindowToolButton(par);
             buttonClose->setObjectName(QStringLiteral("SACloseWindowButton"));
-            buttonClose->setFixedSize(40, par->height() - 2);
+            buttonClose->setFixedSize(30, par->height() - 2);//@zzc Modify 40->30，根据UI需求，将close button的width更改为30,呈一个正方形
             buttonClose->setFocusPolicy(Qt::NoFocus);  // 避免铺抓到
             // buttonClose->setFlat(true);
             par->connect(buttonClose, &QAbstractButton::clicked, par, &SAWindowButtonGroup::closeWindow);
@@ -159,7 +159,7 @@ public:
         int height = 30;
 
         if (buttonClose) {
-            width += 40;
+            width += 30; //@zzc Modify 40->30，根据UI需求，将close button的width更改为30,呈一个正方形
         }
         if (buttonMaximize) {
             width += 30;

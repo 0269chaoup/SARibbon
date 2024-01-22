@@ -268,6 +268,9 @@ void SARibbonToolButton::PrivateData::calcSmallButtonDrawRects(const QStyleOptio
                                                                int spacing,
                                                                int indicatorLen) const
 {
+	/*spacing @zzc Modify 同步smallButton icon with text width = 2*/
+	int spacingIconWithTextWidth = 2;
+	spacing                      = 2;  //@111
 	switch (opt.toolButtonStyle) {
 	case Qt::ToolButtonIconOnly: {
 		if (hasIndicator(opt)) {
@@ -297,7 +300,10 @@ void SARibbonToolButton::PrivateData::calcSmallButtonDrawRects(const QStyleOptio
 		bool hasInd = hasIndicator(opt);
 		// icon Beside和under都是一样的
 		QRect buttonRect = q_ptr->rect();
-		buttonRect.adjust(spacing, spacing, -spacing, -spacing);
+		buttonRect.adjust(spacingIconWithTextWidth,
+		                  spacingIconWithTextWidth,
+		                  /*-spacingIconWithTextWidth @1111*/ 0,
+		                  -spacingIconWithTextWidth);  // @zzc note: 用于获取原本控件的Rect ,adjust 用于设置内边距
 		// 先设置IconRect
 		if (opt.icon.isNull()) {
 			// 没有图标
@@ -310,8 +316,9 @@ void SARibbonToolButton::PrivateData::calcSmallButtonDrawRects(const QStyleOptio
 		if (opt.text.isEmpty()) {
 			textRect = QRect();
 		} else {
-			// 分有菜单和没菜单两种情况  
-			int adjx = iconRect.isValid() ? (iconRect.width() + spacing) : 0;  // 在buttonRect上变换，因此如果没有图标是不用偏移spacing
+			// 分有菜单和没菜单两种情况
+			int adjx = iconRect.isValid() ? (iconRect.width() /*+ spacingIconWithTextWidth  @1111*/)
+			                              : 0;  // 在buttonRect上变换，因此如果没有图标是不用偏移spacing
 			if (hasInd) {
 				textRect = buttonRect.adjusted(adjx, 0, -indicatorLen, 0);
 			} else {
@@ -353,7 +360,7 @@ void SARibbonToolButton::PrivateData::calcLargeButtonDrawRects(const QStyleOptio
 	// @zzc Modify
 	//		大图标，icon和text之间的spacing 为8px；
 	//		icon和按钮边界之间的距离为 4px,spacing->4 ,
-	int iconSpacingText = 8; 
+	int iconSpacingText = 8;
 	spacing             = 4;
 
 	//! 3行模式的图标比较大，文字换行情况下，indicator会动态调整
@@ -447,7 +454,8 @@ QSize SARibbonToolButton::PrivateData::calcSmallButtonSizeHint(const QStyleOptio
 {
 	int w = 0, h = 0;
 	//@zzc Modify 更新sizeHint 解决 文本显示不全问题
-	mSpacing = 4;
+	mSpacing            = 4;
+	int spacing         = 2;  //@zzc Modify 修改icon with text width
 	switch (opt.toolButtonStyle) {
 	case Qt::ToolButtonIconOnly: {
 		w = opt.iconSize.width() + 2 * mSpacing;
@@ -462,20 +470,20 @@ QSize SARibbonToolButton::PrivateData::calcSmallButtonSizeHint(const QStyleOptio
 	} break;
 	default: {
 		// 先加入icon的尺寸
-		w = opt.iconSize.width() + 2 * mSpacing;
-		h = opt.iconSize.height() + 2 * mSpacing;
+		w = opt.iconSize.width() + 2 * spacing;  //@zzc Modify UI需求 需更改Icon with text 之间的间距;
+		h = opt.iconSize.height() + 2 * spacing;
 		// 再加入文本的长度
 		if (!opt.text.isEmpty()) {
-			QSize textSize = opt.fontMetrics.size(Qt::TextShowMnemonic, simplified(opt.text));
-			textSize.setWidth(textSize.width() + SA_FONTMETRICS_WIDTH(opt.fontMetrics, (QLatin1Char(' '))) * 2);
+			QSize textSize = opt.fontMetrics.size(Qt::TextShowMnemonic, simplified(opt.text)); 
+			textSize.setWidth(textSize.width() /*+ SA_FONTMETRICS_WIDTH(opt.fontMetrics, (QLatin1Char(' '))) * 2  //@zzc Modify UI需求 需更改Icon with text 之间的间距,故去掉text两侧的 spacing*/);
 			textSize.setHeight(calcTextDrawRectHeight(opt));
-			w += iconSpacingText;  // icon 和 text之间的间距 @zzc Modify 根据UI调整
+			w += 4;  // icon 和 text之间的间距 @zzc Modify 根据UI调整
 			w += textSize.width();
-			h = qMax(h, (textSize.height() + (2 * mSpacing)));
+			h = qMax(h, (textSize.height() + (2 * spacing)));
 		} else {
 			// 没有文本的时候也要设置一下高度
 			QSize textSize = opt.fontMetrics.size(Qt::TextShowMnemonic, " ");
-			h              = qMax(h, (textSize.height() + (2 * mSpacing)));
+			h              = qMax(h, (textSize.height() + (2 * spacing)));
 		}
 	}
 	}
