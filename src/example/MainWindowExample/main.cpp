@@ -2,7 +2,8 @@
 #include <QApplication>
 #include <QDebug>
 #include <QElapsedTimer>
-
+#include <filesystem>
+#include <qtranslator.h>
 // 重定向qdebug的打印
 void log_out_put(QtMsgType type, const QMessageLogContext& context, const QString& msg);
 
@@ -14,56 +15,61 @@ void log_out_put(QtMsgType type, const QMessageLogContext& context, const QStrin
  */
 void log_out_put(QtMsgType type, const QMessageLogContext& context, const QString& msg)
 {
-    QByteArray localMsg = msg.toLocal8Bit();
+	QByteArray localMsg = msg.toLocal8Bit();
 
-    switch (type) {
-    case QtDebugMsg:
-        fprintf(stdout, "%s |[Debug] (%s[%u],%s)\n", localMsg.constData(), context.function, context.line, context.file);
-        break;
+	switch (type) {
+	case QtDebugMsg:
+		fprintf(stdout, "%s |[Debug] (%s[%u],%s)\n", localMsg.constData(), context.function, context.line, context.file);
+		break;
 
-    case QtWarningMsg:
-        fprintf(stdout, "%s |[Warning] (%s[%u],%s)\n", localMsg.constData(), context.function, context.line, context.file);
-        break;
+	case QtWarningMsg:
+		fprintf(stdout, "%s |[Warning] (%s[%u],%s)\n", localMsg.constData(), context.function, context.line, context.file);
+		break;
 
-    case QtCriticalMsg:
-        fprintf(stdout, "%s |[Critical] (%s[%u],%s)\n", localMsg.constData(), context.function, context.line, context.file);
-        break;
+	case QtCriticalMsg:
+		fprintf(stdout, "%s |[Critical] (%s[%u],%s)\n", localMsg.constData(), context.function, context.line, context.file);
+		break;
 
-    case QtFatalMsg:
-        fprintf(stdout, "%s |[Fatal] (%s[%u],%s)\n", localMsg.constData(), context.function, context.line, context.file);
-        abort();
-        break;
+	case QtFatalMsg:
+		fprintf(stdout, "%s |[Fatal] (%s[%u],%s)\n", localMsg.constData(), context.function, context.line, context.file);
+		abort();
+		break;
 
-    default:
-        fprintf(stdout, "%s |[Debug](%s[%u],%s)\n", localMsg.constData(), context.function, context.line, context.file);
-        break;
-    }
+	default:
+		fprintf(stdout, "%s |[Debug](%s[%u],%s)\n", localMsg.constData(), context.function, context.line, context.file);
+		break;
+	}
 #ifndef QT_NO_DEBUG_OUTPUT
-    fflush(stdout);
+	fflush(stdout);
 #endif
 }
 
 int main(int argc, char* argv[])
 {
-    // 以下是针对高分屏的设置，有高分屏需求都需要按照下面进行设置
+	// 以下是针对高分屏的设置，有高分屏需求都需要按照下面进行设置
 #if (QT_VERSION >= QT_VERSION_CHECK(5, 6, 0))
-    QApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
-    QApplication::setAttribute(Qt::AA_UseHighDpiPixmaps);
+	QApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
+	QApplication::setAttribute(Qt::AA_UseHighDpiPixmaps);
 #endif
 #if (QT_VERSION >= QT_VERSION_CHECK(5, 14, 0))
-    QApplication::setHighDpiScaleFactorRoundingPolicy(Qt::HighDpiScaleFactorRoundingPolicy::PassThrough);
+	QApplication::setHighDpiScaleFactorRoundingPolicy(Qt::HighDpiScaleFactorRoundingPolicy::PassThrough);
 #endif
-    QApplication a(argc, argv);
-    qInstallMessageHandler(log_out_put);
-    QFont f = a.font();
-    f.setFamily(u8"微软雅黑");
-    a.setFont(f);
-    QElapsedTimer cost;
+	QApplication a(argc, argv);
+	qInstallMessageHandler(log_out_put);
+	QFont f = a.font();
+	f.setFamily(u8"微软雅黑");
+	a.setFont(f);
+	QElapsedTimer cost;
 
-    cost.start();
-    MainWindow w;
-    qDebug() << "window build cost:" << cost.elapsed() << " ms";
-    w.show();
+	cost.start();
+	/*QString path
+	{ "E:/Project/ribbon/Fork_SARibbon/SARibbon/src/SARibbonBar/resource/SARibbonBar_zh_CN.qm" };
+	QTranslator* translator = new QTranslator;
+	if (translator->load(QString::fromStdWString(path.toStdWString())))
+		QApplication::installTranslator(translator);*/
+	MainWindow w;
+	qDebug() << "window build cost:" << cost.elapsed() << " ms";
+	w.show();
 
-    return (a.exec());
+	return (a.exec());
 }

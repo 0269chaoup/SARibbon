@@ -70,6 +70,8 @@ public:
     ~SARibbonMainWindow() Q_DECL_OVERRIDE;
     // 返回SARibbonBar
     SARibbonBar* ribbonBar() const;
+	//@zzc 新增设置翻译map ，由外部子类传递进来
+	void setTranslationText(std::map< QString, QString > translationText);
 #if !SARIBBON_USE_3RDPARTY_FRAMELESSHELPER
     // 返回SAFramelessHelper
     SAFramelessHelper* framelessHelper();

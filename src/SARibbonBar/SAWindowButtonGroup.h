@@ -20,7 +20,8 @@ public:
     void setupCloseButton(bool on);
     void updateWindowFlag();
     void updateWindowFlag(Qt::WindowFlags flags);
-
+    //@zzc 新增设置翻译map
+	void setTranslaionText(std::map< QString, QString > translationText);
     // 设置按钮的宽度比例,最终按钮宽度将按照此比例进行设置
     void setButtonWidthStretch(int close = 4, int max = 3, int min = 3);
 

@@ -276,6 +276,12 @@ SET(SARIBBON_RESOURCE_FILES
     resource.qrc
 )
 
+# translation files
+# cn:翻译文件
+SET(SARIBBON_TRANSLATION_FILES
+    resource/SARibbonBar_zh_CN.ts
+)
+
 ################################################################
 if(SARIBBON_USE_FRAMELESS_LIB)
     add_library(${SARIBBON_LIB_NAME} SHARED
@@ -296,6 +302,7 @@ else()
         ${SARIBBON_RESOURCE_FILES}
         ${SACOLOR_HEADER_FILES}
         ${SACOLOR_SOURCE_FILES}
+        ${SARIBBON_TRANSLATION_FILES}
     )
 endif()
 add_library(SARibbon ALIAS ${SARIBBON_LIB_NAME})
@@ -306,6 +313,9 @@ target_link_libraries(${SARIBBON_LIB_NAME} PUBLIC
                       Qt${QT_VERSION_MAJOR}::Core
                       Qt${QT_VERSION_MAJOR}::Gui
                       Qt${QT_VERSION_MAJOR}::Widgets)
+find_package(QT NAMES Qt5 COMPONENTS AxContainer REQUIRED)
+find_package(Qt${QT_VERSION_MAJOR} COMPONENTS AxContainer REQUIRED)
+find_package(Qt${QT_VERSION_MAJOR} COMPONENTS LinguistTools REQUIRED)
 
 
 #################################################
@@ -400,6 +410,24 @@ else()
         $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>
     )
 endif()
+# @zzc 新增翻译文件
+#################################################
+# SARibbonBar的翻译文件
+#################################################
+set(TS_DIR "${CMAKE_CURRENT_SOURCE_DIR}")
+message(STATUS "TS_DIR ====================== ${TS_DIR}")
+file(GLOB TS_FILES ${TS_DIR}/resource/*.ts)
+foreach(_ts_file ${TS_FILES})
+    string(REGEX REPLACE "ts$" "qm" tmpQm ${_ts_file})
+    message(STATUS "_ts_file ====================== ${_ts_file}")
+    add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
+        COMMAND ${Qt5_LUPDATE_EXECUTABLE} ${CMAKE_CURRENT_LIST_DIR} -ts ${_ts_file}
+        COMMAND ${Qt5_LRELEASE_EXECUTABLE} ${_ts_file} -qm "${tmpQm}"
+		COMMAND ${CMAKE_COMMAND} -E  copy_if_different "${tmpQm}" "${CMAKE_CURRENT_SOURCE_DIR}/resource/SARibbonBar_zh_CN.qm"
+        DEPENDS ${TRANSLATIONS}
+        WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
+        COMMENT "Generating translation files")             
+endforeach()
 
 # ------------------------------- install script -------------------------------
 message(STATUS "install dir ${CMAKE_INSTALL_PREFIX}")

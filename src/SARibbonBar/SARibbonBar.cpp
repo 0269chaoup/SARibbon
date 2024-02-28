@@ -1111,6 +1111,7 @@ void SARibbonBar::onCurrentRibbonTabChanged(int index)
         _SARibbonTabData p = var.value< _SARibbonTabData >();
         category           = p.category;
     }
+    emit currentRibbonTabChanged(index);
     if (category) {
         if (d_ptr->mStackedContainerWidget->currentWidget() != category) {
             d_ptr->mStackedContainerWidget->setCurrentWidget(category);
@@ -1134,7 +1135,7 @@ void SARibbonBar::onCurrentRibbonTabChanged(int index)
             }
         }
     }
-    emit currentRibbonTabChanged(index);
+	//emit currentRibbonTabChanged(index); @zzc 将信号发送提前，因为上面if条件判断语句中  d_ptr->mStackedContainerWidget->exec(); 中执行了一个事件循环会使界面卡住，具体为什么卡住，还不清楚， 还需要了解QEventLoop的使用方法。
 	if (isMinimumMode()) {
 		setMinimumMode(false);
 	}

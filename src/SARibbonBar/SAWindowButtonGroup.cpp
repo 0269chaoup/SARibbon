@@ -14,19 +14,20 @@
  */
 class SAWindowButtonGroup::PrivateData
 {
-    SA_RIBBON_DECLARE_PUBLIC(SAWindowButtonGroup)
+	SA_RIBBON_DECLARE_PUBLIC(SAWindowButtonGroup)
 public:
-    SAWindowToolButton* buttonClose { nullptr };
-    SAWindowToolButton* buttonMinimize { nullptr };
-    SAWindowToolButton* buttonMaximize { nullptr };
-    int mCloseStretch { 4 };
-    int mMaxStretch { 3 };
-    int mMinStretch { 3 };
-    qreal mIconscale { 0.5 };
-    Qt::WindowFlags mFlags;
-    PrivateData(SAWindowButtonGroup* p) : q_ptr(p), mFlags(Qt::WindowFlags())
-    {
-    }
+	SAWindowToolButton* buttonClose { nullptr };
+	SAWindowToolButton* buttonMinimize { nullptr };
+	SAWindowToolButton* buttonMaximize { nullptr };
+	int mCloseStretch { 4 };
+	int mMaxStretch { 3 };
+	int mMinStretch { 3 };
+	qreal mIconscale { 0.5 };
+	std::map< QString, QString > m_translationText;
+	Qt::WindowFlags mFlags;
+	PrivateData(SAWindowButtonGroup* p) : q_ptr(p), mFlags(Qt::WindowFlags())
+	{
+	}
 
     void setupMinimizeButton(bool on)
     {
@@ -169,6 +170,14 @@ public:
         }
         return (QSize(width, height));
     }
+	void setTarnslationText(std::map< QString, QString > translationText)
+	{
+		m_translationText = translationText;
+		//@zzc 关闭按钮新增tooltip
+		buttonClose->setToolTip(m_translationText[ "Close" ]);
+		buttonMinimize->setToolTip(m_translationText[ "Minimize" ]);
+		buttonMaximize->setToolTip(m_translationText[ "Maximize" ]);
+	}
 };
 
 //===================================================
@@ -266,6 +275,11 @@ void SAWindowButtonGroup::updateWindowFlag(Qt::WindowFlags flags)
 
     setupCloseButton(flags & Qt::WindowCloseButtonHint);
 }
+//@zzc 新增设置翻译map
+void SAWindowButtonGroup::setTranslaionText(std::map< QString, QString > translationText)
+{
+	d_ptr->setTarnslationText(translationText);
+}
 
 /**
  * @brief 设置按钮的宽度比例,最终按钮宽度将按照此比例进行设置
@@ -295,11 +309,11 @@ void SAWindowButtonGroup::setIconScale(qreal iconscale)
  */
 void SAWindowButtonGroup::setWindowStates(Qt::WindowStates s)
 {
-    if (d_ptr->buttonMaximize) {
-        bool on = s.testFlag(Qt::WindowMaximized);
-        d_ptr->buttonMaximize->setChecked(on);
-        d_ptr->buttonMaximize->setToolTip(on ? tr("Restore") : tr("Maximize"));
-    }
+	if (d_ptr->buttonMaximize) {
+		bool on = s.testFlag(Qt::WindowMaximized);
+		d_ptr->buttonMaximize->setChecked(on);
+		d_ptr->buttonMaximize->setToolTip(on ? d_ptr->m_translationText[ "Restore" ] : d_ptr->m_translationText[ "Maximize" ]);
+	}
 }
 
 /**

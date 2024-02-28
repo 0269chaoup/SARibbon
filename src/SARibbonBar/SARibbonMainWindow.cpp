@@ -218,6 +218,11 @@ SARibbonBar* SARibbonMainWindow::createRibbonBar()
 	bar->setContentsMargins(3, 0, 3, 0);
 	return bar;
 }
+//@zzc 新增设置翻译map
+void SARibbonMainWindow::setTranslationText(std::map< QString, QString > translationText)
+{
+	d_ptr->mWindowButtonGroup->setTranslaionText(translationText);
+}
 
 void SARibbonMainWindow::resizeEvent(QResizeEvent* event)
 {
@@ -242,7 +247,7 @@ bool SARibbonMainWindow::event(QEvent* e)
 				d_ptr->mWindowButtonGroup->setWindowStates(windowState());
 			}
 		} break;
-			//@zzc 禁用ContextMenu 
+			//@zzc 禁用ContextMenu
 		case QEvent::ContextMenu: {
 			return false;
 		}
