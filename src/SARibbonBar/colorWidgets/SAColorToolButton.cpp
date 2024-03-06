@@ -10,60 +10,67 @@
 class SAColorToolButton::PrivateData
 {
     SA_COLOR_WIDGETS_DECLARE_PUBLIC(SAColorToolButton)
-public:
+  public:
     PrivateData(SAColorToolButton* p);
-    void calcSizeOfToolButtonIconOnly(const QStyleOptionToolButton& opt, QRect& iconRect, QRect& textRect, QRect& colorRect);
-    void calcSizeOfToolButtonTextOnly(const QStyleOptionToolButton& opt, QRect& iconRect, QRect& textRect, QRect& colorRect);
-    void calcSizeOfToolButtonTextBesideIcon(const QStyleOptionToolButton& opt, QRect& iconRect, QRect& textRect, QRect& colorRect);
-    void calcSizeOfToolButtonTextUnderIcon(const QStyleOptionToolButton& opt, QRect& iconRect, QRect& textRect, QRect& colorRect);
-    QPixmap createIconPixmap(const QStyleOptionToolButton& opt, const QRect& iconRect);
-    QRect getButtonRect(const QStyleOptionToolButton& opt);
-    QRect getIndicatorRect(const QStyleOptionToolButton& opt);
+    void          calcSizeOfToolButtonIconOnly(const QStyleOptionToolButton& opt, QRect& iconRect, QRect& textRect, QRect& colorRect);
+    void          calcSizeOfToolButtonTextOnly(const QStyleOptionToolButton& opt, QRect& iconRect, QRect& textRect, QRect& colorRect);
+    void          calcSizeOfToolButtonTextBesideIcon(const QStyleOptionToolButton& opt, QRect& iconRect, QRect& textRect, QRect& colorRect);
+    void          calcSizeOfToolButtonTextUnderIcon(const QStyleOptionToolButton& opt, QRect& iconRect, QRect& textRect, QRect& colorRect);
+    QPixmap       createIconPixmap(const QStyleOptionToolButton& opt, const QRect& iconRect);
+    QRect         getButtonRect(const QStyleOptionToolButton& opt);
+    QRect         getIndicatorRect(const QStyleOptionToolButton& opt);
     QStyle::State getButtonStyleState(const QStyleOptionToolButton& opt);
     QStyle::State getButtonMenuStyleState(const QStyleOptionToolButton& opt);
 
-public:
-    QColor mColor { Qt::white };
-    int mSpacing { 2 };                ///< 间隔
-    QMargins mMargins { 3, 3, 3, 3 };  ///< box
+  public:
+    QColor   mColor{Qt::white};
+    int      mSpacing{2};          ///< 间隔
+    QMargins mMargins{3, 3, 3, 3}; ///< box
 
-    static int s_indicatorArrorWidth;  ///< 菜单宽度
+    static int s_indicatorArrorWidth; ///< 菜单宽度
 };
 
 int SAColorToolButton::PrivateData::s_indicatorArrorWidth = 8;
 
-SAColorToolButton::PrivateData::PrivateData(SAColorToolButton* p) : q_ptr(p)
+SAColorToolButton::PrivateData::PrivateData(SAColorToolButton* p)
+    : q_ptr(p)
 {
 }
 
 void SAColorToolButton::PrivateData::calcSizeOfToolButtonIconOnly(const QStyleOptionToolButton& opt, QRect& iconRect, QRect& textRect, QRect& colorRect)
 {
-    //确定文本区域
+    // 确定文本区域
     textRect         = QRect();
     QRect buttonRect = getButtonRect(opt);
-    if (opt.icon.isNull()) {
+    if (opt.icon.isNull())
+    {
         colorRect = buttonRect;
         iconRect  = QRect();
-    } else {
+    }
+    else
+    {
         QSize tmpSize = opt.iconSize;
-        if (tmpSize.isNull()) {
+        if (tmpSize.isNull())
+        {
             tmpSize = QSize(16, 16);
         }
         tmpSize         = buttonRect.size().boundedTo(tmpSize);
         int colorHeight = tmpSize.height() / 4;
         int totalHeight = colorHeight + tmpSize.height() + mSpacing;
-        if (totalHeight > buttonRect.height()) {
-            //过高，这时要通过高度反推tmpSize和colorHeight
+        if (totalHeight > buttonRect.height())
+        {
+            // 过高，这时要通过高度反推tmpSize和colorHeight
             colorHeight = (buttonRect.height() - mSpacing) / 5;
             tmpSize.setHeight(colorHeight * 4);
-            if (opt.iconSize.height() > 0) {
-                tmpSize.setWidth(tmpSize.height() * opt.iconSize.width() / opt.iconSize.height());  //等比例
+            if (opt.iconSize.height() > 0)
+            {
+                tmpSize.setWidth(tmpSize.height() * opt.iconSize.width() / opt.iconSize.height()); // 等比例
             }
             tmpSize = buttonRect.size().boundedTo(tmpSize);
         }
-        //有icon，颜色位于图标下面
-        int y = (buttonRect.height() - colorHeight - mSpacing - tmpSize.height()) / 2;  //(ButtonHeight-TotalHeight)/2
-        int x = (buttonRect.width() - tmpSize.width()) / 2;
+        // 有icon，颜色位于图标下面
+        int y     = (buttonRect.height() - colorHeight - mSpacing - tmpSize.height()) / 2; //(ButtonHeight-TotalHeight)/2
+        int x     = (buttonRect.width() - tmpSize.width()) / 2;
         iconRect  = QRect(buttonRect.left() + x, buttonRect.top() + y, tmpSize.width(), tmpSize.height());
         colorRect = QRect(iconRect.x(), iconRect.bottom() + mSpacing, iconRect.width(), colorHeight);
     }
@@ -81,7 +88,8 @@ void SAColorToolButton::PrivateData::calcSizeOfToolButtonTextOnly(const QStyleOp
     QRect buttonRect = getButtonRect(opt);
     iconRect         = QRect();
     QSize colorSize  = opt.iconSize;
-    if (colorSize.isNull()) {
+    if (colorSize.isNull())
+    {
         colorSize = QSize(16, 16);
     }
     colorSize = buttonRect.size().boundedTo(colorSize);
@@ -93,14 +101,16 @@ void SAColorToolButton::PrivateData::calcSizeOfToolButtonTextOnly(const QStyleOp
 }
 
 void SAColorToolButton::PrivateData::calcSizeOfToolButtonTextBesideIcon(const QStyleOptionToolButton& opt,
-                                                                        QRect& iconRect,
-                                                                        QRect& textRect,
-                                                                        QRect& colorRect)
+                                                                        QRect&                        iconRect,
+                                                                        QRect&                        textRect,
+                                                                        QRect&                        colorRect)
 {
     QRect buttonRect = getButtonRect(opt);
-    if (opt.icon.isNull()) {
+    if (opt.icon.isNull())
+    {
         QSize colorSize = opt.iconSize;
-        if (colorSize.isNull()) {
+        if (colorSize.isNull())
+        {
             colorSize = QSize(16, 16);
         }
         // 说明没有icon
@@ -113,22 +123,26 @@ void SAColorToolButton::PrivateData::calcSizeOfToolButtonTextBesideIcon(const QS
                           colorSize.width(),
                           colorSize.height());
         textRect  = buttonRect.adjusted(colorRect.width() + mSpacing, 0, 0, 0);
-    } else {  //有图标
+    }
+    else
+    { // 有图标
         QSize tmpSize = opt.iconSize;
-        if (tmpSize.isNull()) {
+        if (tmpSize.isNull())
+        {
             tmpSize = QSize(16, 16);
         }
         tmpSize         = buttonRect.size().boundedTo(tmpSize);
         int colorHeight = tmpSize.height() / 4;
         int totalHeight = colorHeight + tmpSize.height() + mSpacing;
-        if (totalHeight > buttonRect.height()) {
-            //过高，这时要通过高度反推tmpSize和colorHeight
+        if (totalHeight > buttonRect.height())
+        {
+            // 过高，这时要通过高度反推tmpSize和colorHeight
             colorHeight = (buttonRect.height() - mSpacing) / 5;
             tmpSize.setHeight(colorHeight * 4);
-            tmpSize.setWidth(tmpSize.height());  //对于异形也设置为正方行
+            tmpSize.setWidth(tmpSize.height()); // 对于异形也设置为正方行
         }
-        //有icon，颜色位于图标下面
-        int y = (buttonRect.height() - colorHeight - mSpacing - tmpSize.height()) / 2;  //(ButtonHeight-TotalHeight)/2
+        // 有icon，颜色位于图标下面
+        int y     = (buttonRect.height() - colorHeight - mSpacing - tmpSize.height()) / 2; //(ButtonHeight-TotalHeight)/2
         iconRect  = QRect(buttonRect.left(), buttonRect.top() + y, tmpSize.width(), tmpSize.height());
         colorRect = QRect(iconRect.x(), iconRect.bottom() + mSpacing, iconRect.width(), colorHeight);
         textRect  = buttonRect.adjusted(iconRect.right() + mSpacing, 0, 0, 0);
@@ -136,28 +150,33 @@ void SAColorToolButton::PrivateData::calcSizeOfToolButtonTextBesideIcon(const QS
 }
 
 void SAColorToolButton::PrivateData::calcSizeOfToolButtonTextUnderIcon(const QStyleOptionToolButton& opt,
-                                                                       QRect& iconRect,
-                                                                       QRect& textRect,
-                                                                       QRect& colorRect)
+                                                                       QRect&                        iconRect,
+                                                                       QRect&                        textRect,
+                                                                       QRect&                        colorRect)
 {
     QRect buttonRect = getButtonRect(opt);
     QSize tmpSize    = opt.iconSize;
-    if (tmpSize.isNull()) {
+    if (tmpSize.isNull())
+    {
         tmpSize = QSize(16, 16);
     }
-    //获取字体高度
+    // 获取字体高度
     int textHeight = opt.fontMetrics.height();
     tmpSize        = buttonRect.size().boundedTo(tmpSize);
-    if (opt.icon.isNull()) {
+    if (opt.icon.isNull())
+    {
         int totalHeight = textHeight + opt.iconSize.height() + mSpacing;
-        if (totalHeight < buttonRect.height()) {
-            //足够高
+        if (totalHeight < buttonRect.height())
+        {
+            // 足够高
             colorRect = QRect(buttonRect.left() + (buttonRect.width() - tmpSize.width()) / 2,
                               buttonRect.top() + (buttonRect.height() - totalHeight) / 2,
                               tmpSize.width(),
                               opt.iconSize.height());
-        } else {
-            //空间不足
+        }
+        else
+        {
+            // 空间不足
             colorRect = QRect(buttonRect.left() + (buttonRect.width() - tmpSize.width()) / 2,
                               buttonRect.top() + mSpacing,
                               tmpSize.width(),
@@ -165,21 +184,24 @@ void SAColorToolButton::PrivateData::calcSizeOfToolButtonTextUnderIcon(const QSt
         }
         iconRect = QRect();
         textRect = QRect(buttonRect.left(), colorRect.bottom() + mSpacing, buttonRect.width(), textHeight);
-
-    } else {
-        //有图标
+    }
+    else
+    {
+        // 有图标
         int colorHeight = tmpSize.height() / 4;
         int totalHeight = textHeight + opt.iconSize.height() + colorHeight + 2 * mSpacing;
-        if (totalHeight < buttonRect.height()) {
-            //高度空间足够
-            //先布置icon
+        if (totalHeight < buttonRect.height())
+        {
+            // 高度空间足够
+            // 先布置icon
             iconRect = QRect(buttonRect.left() + (buttonRect.width() - tmpSize.width()) / 2,
                              buttonRect.top() + (buttonRect.height() - totalHeight) / 2,
                              tmpSize.width(),
                              opt.iconSize.height());
-
-        } else {
-            //空间不足
+        }
+        else
+        {
+            // 空间不足
             iconRect = QRect(buttonRect.left() + (buttonRect.width() - tmpSize.width()) / 2,
                              buttonRect.top() + mSpacing,
                              tmpSize.width(),
@@ -192,17 +214,23 @@ void SAColorToolButton::PrivateData::calcSizeOfToolButtonTextUnderIcon(const QSt
 
 QPixmap SAColorToolButton::PrivateData::createIconPixmap(const QStyleOptionToolButton& opt, const QRect& iconRect)
 {
-    if (opt.icon.isNull()) {
+    if (opt.icon.isNull())
+    {
         return (QPixmap());
     }
-    //有图标
+    // 有图标
     QIcon::State state = opt.state & QStyle::State_On ? QIcon::On : QIcon::Off;
-    QIcon::Mode mode;
-    if (!(opt.state & QStyle::State_Enabled)) {
+    QIcon::Mode  mode;
+    if (!(opt.state & QStyle::State_Enabled))
+    {
         mode = QIcon::Disabled;
-    } else if ((opt.state & QStyle::State_MouseOver) && (opt.state & QStyle::State_AutoRaise)) {
+    }
+    else if ((opt.state & QStyle::State_MouseOver) && (opt.state & QStyle::State_AutoRaise))
+    {
         mode = QIcon::Active;
-    } else {
+    }
+    else
+    {
         mode = QIcon::Normal;
     }
     // return (opt.icon.pixmap(this->window()->windowHandle(), opt.rect.size().boundedTo(realConSize), mode, state));
@@ -228,7 +256,8 @@ QRect SAColorToolButton::PrivateData::getButtonRect(const QStyleOptionToolButton
  */
 QRect SAColorToolButton::PrivateData::getIndicatorRect(const QStyleOptionToolButton& opt)
 {
-    if (opt.features & QStyleOptionToolButton::MenuButtonPopup || opt.features & QStyleOptionToolButton::HasMenu) {
+    if (opt.features & QStyleOptionToolButton::MenuButtonPopup || opt.features & QStyleOptionToolButton::HasMenu)
+    {
         return q_ptr->style()->subControlRect(QStyle::CC_ToolButton, &opt, QStyle::SC_ToolButtonMenu, q_ptr);
     }
     return QRect();
@@ -242,13 +271,17 @@ QRect SAColorToolButton::PrivateData::getIndicatorRect(const QStyleOptionToolBut
 QStyle::State SAColorToolButton::PrivateData::getButtonStyleState(const QStyleOptionToolButton& opt)
 {
     QStyle::State bflags = opt.state & ~QStyle::State_Sunken;
-    if (bflags & QStyle::State_AutoRaise) {
-        if (!(bflags & QStyle::State_MouseOver) || !(bflags & QStyle::State_Enabled)) {
+    if (bflags & QStyle::State_AutoRaise)
+    {
+        if (!(bflags & QStyle::State_MouseOver) || !(bflags & QStyle::State_Enabled))
+        {
             bflags &= ~QStyle::State_Raised;
         }
     }
-    if (opt.state & QStyle::State_Sunken) {
-        if (opt.activeSubControls & QStyle::SC_ToolButton) {
+    if (opt.state & QStyle::State_Sunken)
+    {
+        if (opt.activeSubControls & QStyle::SC_ToolButton)
+        {
             bflags |= QStyle::State_Sunken;
         }
     }
@@ -263,12 +296,15 @@ QStyle::State SAColorToolButton::PrivateData::getButtonStyleState(const QStyleOp
 QStyle::State SAColorToolButton::PrivateData::getButtonMenuStyleState(const QStyleOptionToolButton& opt)
 {
     QStyle::State mflags = opt.state & ~QStyle::State_Sunken;
-    if (mflags & QStyle::State_AutoRaise) {
-        if (!(mflags & QStyle::State_MouseOver) || !(mflags & QStyle::State_Enabled)) {
+    if (mflags & QStyle::State_AutoRaise)
+    {
+        if (!(mflags & QStyle::State_MouseOver) || !(mflags & QStyle::State_Enabled))
+        {
             mflags &= ~QStyle::State_Raised;
         }
     }
-    if (opt.state & QStyle::State_Sunken) {
+    if (opt.state & QStyle::State_Sunken)
+    {
         mflags |= QStyle::State_Sunken;
     }
     return mflags;
@@ -277,7 +313,8 @@ QStyle::State SAColorToolButton::PrivateData::getButtonMenuStyleState(const QSty
 //==============================================================
 // SAColorToolButton
 //==============================================================
-SAColorToolButton::SAColorToolButton(QWidget* parent) : QToolButton(parent), d_ptr(new PrivateData(this))
+SAColorToolButton::SAColorToolButton(QWidget* parent)
+    : QToolButton(parent), d_ptr(new PrivateData(this))
 {
     QStyleOptionToolButton opt;
     initStyleOption(&opt);
@@ -339,7 +376,8 @@ void SAColorToolButton::paintNoneColor(QPainter* p, const QRect& colorRect)
  */
 void SAColorToolButton::setColor(const QColor& c)
 {
-    if (d_ptr->mColor != c) {
+    if (d_ptr->mColor != c)
+    {
         d_ptr->mColor = c;
         repaint();
         emit colorChanged(c);
@@ -355,7 +393,8 @@ void SAColorToolButton::setColor(const QColor& c)
  */
 void SAColorToolButton::calcRect(const QStyleOptionToolButton& opt, QRect& iconRect, QRect& textRect, QRect& colorRect)
 {
-    switch (opt.toolButtonStyle) {
+    switch (opt.toolButtonStyle)
+    {
     case Qt::ToolButtonTextOnly:
         d_ptr->calcSizeOfToolButtonTextOnly(opt, iconRect, textRect, colorRect);
         break;
@@ -386,17 +425,17 @@ void SAColorToolButton::paintEvent(QPaintEvent* e)
     QRect iconRect, colorRect, textRect;
     calcRect(opt, iconRect, textRect, colorRect);
     paintButton(&p, opt);
-    //绘制图标
+    // 绘制图标
     paintIcon(&p, iconRect, opt);
-    //绘制文字
+    // 绘制文字
     paintText(&p, textRect, opt);
-    //绘制颜色
+    // 绘制颜色
     paintColor(&p, colorRect, d_ptr->mColor, opt);
 }
 
 void SAColorToolButton::resizeEvent(QResizeEvent* e)
 {
-    //在resizeevent计算绘图所需的尺寸，避免在绘图过程中实时绘制提高效率
+    // 在resizeevent计算绘图所需的尺寸，避免在绘图过程中实时绘制提高效率
     QToolButton::resizeEvent(e);
 }
 
@@ -410,33 +449,41 @@ QSize SAColorToolButton::sizeHint() const
     QStyleOptionToolButton opt;
     initStyleOption(&opt);
     int w = 0, h = 0;
-    if (Qt::ToolButtonIconOnly == opt.toolButtonStyle || Qt::ToolButtonFollowStyle == opt.toolButtonStyle) {
-        //和文本无关
+    if (Qt::ToolButtonIconOnly == opt.toolButtonStyle || Qt::ToolButtonFollowStyle == opt.toolButtonStyle)
+    {
+        // 和文本无关
         w = opt.iconSize.width() + d_ptr->mMargins.left() + d_ptr->mMargins.right();
         h = opt.iconSize.height() + d_ptr->mMargins.top() + d_ptr->mMargins.bottom();
-    } else if (Qt::ToolButtonTextOnly == opt.toolButtonStyle || Qt::ToolButtonTextBesideIcon == opt.toolButtonStyle) {
+    }
+    else if (Qt::ToolButtonTextOnly == opt.toolButtonStyle || Qt::ToolButtonTextBesideIcon == opt.toolButtonStyle)
+    {
         QSize textSize = opt.fontMetrics.size(Qt::TextSingleLine | Qt::TextShowMnemonic, opt.text);
         textSize.setHeight(textSize.height() + 4);
         QSize iconSize = opt.iconSize;
-        if (!opt.icon.isNull()) {
-            //有图标，要有iconsize高度的1/4给颜色
+        if (!opt.icon.isNull())
+        {
+            // 有图标，要有iconsize高度的1/4给颜色
             iconSize.setHeight(iconSize.height() + iconSize.height() / 4 + d_ptr->mSpacing);
         }
         w = textSize.width() + d_ptr->mSpacing + iconSize.width() + d_ptr->mMargins.left() + d_ptr->mMargins.right();
         h = qMax(textSize.height(), iconSize.height()) + d_ptr->mMargins.top() + d_ptr->mMargins.bottom();
-    } else if (Qt::ToolButtonTextUnderIcon == opt.toolButtonStyle) {
+    }
+    else if (Qt::ToolButtonTextUnderIcon == opt.toolButtonStyle)
+    {
         QSize textSize = opt.fontMetrics.size(Qt::TextSingleLine | Qt::TextShowMnemonic, opt.text);
         textSize.setHeight(textSize.height() + 4);
         QSize iconSize = opt.iconSize;
-        if (!opt.icon.isNull()) {
-            //有图标，要有iconsize高度的1/4给颜色
+        if (!opt.icon.isNull())
+        {
+            // 有图标，要有iconsize高度的1/4给颜色
             iconSize.setHeight(iconSize.height() + iconSize.height() / 4 + d_ptr->mSpacing);
         }
         w = qMax(textSize.width(), iconSize.width()) + d_ptr->mMargins.left() + d_ptr->mMargins.right();
         h = textSize.height() + iconSize.height() + d_ptr->mSpacing + d_ptr->mMargins.top() + d_ptr->mMargins.bottom();
     }
-    opt.rect.setSize(QSize(w, h));  // PM_MenuButtonIndicator depends on the height
-    if (opt.features & QStyleOptionToolButton::MenuButtonPopup || opt.features & QStyleOptionToolButton::HasMenu) {
+    opt.rect.setSize(QSize(w, h)); // PM_MenuButtonIndicator depends on the height
+    if (opt.features & QStyleOptionToolButton::MenuButtonPopup || opt.features & QStyleOptionToolButton::HasMenu)
+    {
         w += style()->pixelMetric(QStyle::PM_MenuButtonIndicator, &opt, this);
     }
     //! Qt6.4 取消了QApplication::globalStrut
@@ -456,13 +503,17 @@ void SAColorToolButton::onButtonClicked(bool checked)
 void SAColorToolButton::paintButton(QStylePainter* p, const QStyleOptionToolButton& opt)
 {
     bool autoRaise = opt.state & QStyle::State_AutoRaise;
-    //绘制按钮
-    if (autoRaise) {
+    // 绘制按钮
+    if (autoRaise)
+    {
         style()->drawPrimitive(QStyle::PE_PanelButtonTool, &opt, p, this);
-    } else {
+    }
+    else
+    {
         style()->drawPrimitive(QStyle::PE_PanelButtonBevel, &opt, p, this);
     }
-    if (opt.features & QStyleOptionToolButton::MenuButtonPopup) {
+    if (opt.features & QStyleOptionToolButton::MenuButtonPopup)
+    {
         QStyleOption tool = opt;
         tool.state        = d_ptr->getButtonMenuStyleState(opt);
         tool.rect         = d_ptr->getIndicatorRect(opt);
@@ -472,12 +523,14 @@ void SAColorToolButton::paintButton(QStylePainter* p, const QStyleOptionToolButt
         style()->drawPrimitive(QStyle::PE_IndicatorArrowDown, &tool, p, this);
     }
 
-    //绘制focus
-    if (opt.state & QStyle::State_HasFocus) {
+    // 绘制focus
+    if (opt.state & QStyle::State_HasFocus)
+    {
         QStyleOptionFocusRect fr;
         fr.QStyleOption::operator=(opt);
         fr.rect.adjust(3, 3, -3, -3);
-        if (opt.features & QStyleOptionToolButton::MenuButtonPopup) {
+        if (opt.features & QStyleOptionToolButton::MenuButtonPopup)
+        {
             fr.rect.adjust(0, 0, style()->pixelMetric(QStyle::PM_MenuButtonIndicator, &opt, this), 0);
         }
         style()->drawPrimitive(QStyle::PE_FrameFocusRect, &fr, p, this);
@@ -492,7 +545,8 @@ void SAColorToolButton::paintButton(QStylePainter* p, const QStyleOptionToolButt
  */
 void SAColorToolButton::paintIcon(QStylePainter* p, const QRect& iconRect, const QStyleOptionToolButton& opt)
 {
-    if (!iconRect.isNull()) {
+    if (!iconRect.isNull())
+    {
         QPixmap pm = d_ptr->createIconPixmap(opt, iconRect);
         style()->drawItemPixmap(p, iconRect, Qt::AlignCenter, pm);
     }
@@ -506,17 +560,20 @@ void SAColorToolButton::paintIcon(QStylePainter* p, const QRect& iconRect, const
  */
 void SAColorToolButton::paintText(QStylePainter* p, const QRect& textRect, const QStyleOptionToolButton& opt)
 {
-    if (opt.text.isEmpty()) {
+    if (opt.text.isEmpty())
+    {
         return;
     }
-    if (Qt::ToolButtonIconOnly == opt.toolButtonStyle) {
+    if (Qt::ToolButtonIconOnly == opt.toolButtonStyle)
+    {
         return;
     }
     p->save();
     p->setFont(opt.font);
     int alignment = Qt::TextShowMnemonic;
-    //快捷键的下划线
-    if (!style()->styleHint(QStyle::SH_UnderlineShortcut, &opt, this)) {
+    // 快捷键的下划线
+    if (!style()->styleHint(QStyle::SH_UnderlineShortcut, &opt, this))
+    {
         alignment |= Qt::TextHideMnemonic;
     }
     alignment |= Qt::AlignHCenter | Qt::AlignVCenter;
@@ -539,13 +596,17 @@ void SAColorToolButton::paintText(QStylePainter* p, const QRect& textRect, const
 void SAColorToolButton::paintColor(QStylePainter* p, const QRect& colorRect, const QColor& color, const QStyleOptionToolButton& opt)
 {
     Q_UNUSED(opt);
-    if (colorRect.isNull()) {
+    if (colorRect.isNull())
+    {
         return;
     }
-    //绘制颜色
-    if (color.isValid()) {
+    // 绘制颜色
+    if (color.isValid())
+    {
         p->fillRect(colorRect, color);
-    } else {
+    }
+    else
+    {
         paintNoneColor(p, colorRect);
     }
 }

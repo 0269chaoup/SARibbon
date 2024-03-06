@@ -24,7 +24,7 @@ class SA_RIBBON_EXPORT SARibbonCategory : public QWidget
     friend class SARibbonContextCategory;
     Q_PROPERTY(bool isCanCustomize READ isCanCustomize WRITE setCanCustomize)
     Q_PROPERTY(QString categoryName READ categoryName WRITE setCategoryName)
-public:
+  public:
     SARibbonCategory(QWidget* p = nullptr);
     SARibbonCategory(const QString& name, QWidget* p = nullptr);
     ~SARibbonCategory();
@@ -73,7 +73,7 @@ public:
     bool removePannel(int index);
 
     // 返回所有的Pannel
-    QList< SARibbonPannel* > pannelList() const;
+    QList<SARibbonPannel*> pannelList() const;
 
     //
     QSize sizeHint() const Q_DECL_OVERRIDE;
@@ -94,9 +94,9 @@ public:
     // 刷新category的尺寸布局
     void updateItemGeometry();
 
-protected:
+  protected:
     // 设置pannel的模式
-    void setRibbonPannelLayoutMode(SARibbonPannel::PannelLayoutMode m);
+    void         setRibbonPannelLayoutMode(SARibbonPannel::PannelLayoutMode m);
     virtual bool event(QEvent* e) Q_DECL_OVERRIDE;
     // 处理滚轮事件
     void wheelEvent(QWheelEvent* event) Q_DECL_OVERRIDE;
@@ -110,7 +110,7 @@ protected:
     SARibbonCategoryLayout* categoryLayout() const;
 
     // 设置Category的对齐方式
-    void setCategoryAlignment(SARibbonAlignment al);
+    void              setCategoryAlignment(SARibbonAlignment al);
     SARibbonAlignment getCategoryAlignment() const;
 };
 
@@ -122,8 +122,8 @@ protected:
 class SA_RIBBON_EXPORT SARibbonCategoryScrollButton : public QToolButton
 {
     Q_OBJECT
-public:
+  public:
     SARibbonCategoryScrollButton(Qt::ArrowType arr, QWidget* p = nullptr);
 };
 
-#endif  // SARIBBONCATEGORY_H
+#endif // SARIBBONCATEGORY_H

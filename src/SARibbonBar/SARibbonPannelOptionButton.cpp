@@ -1,7 +1,8 @@
 ﻿#include "SARibbonPannelOptionButton.h"
 #include <QAction>
 
-SARibbonPannelOptionButton::SARibbonPannelOptionButton(QWidget* parent) : QToolButton(parent)
+SARibbonPannelOptionButton::SARibbonPannelOptionButton(QWidget* parent)
+    : QToolButton(parent)
 {
     setAutoRaise(true);
     setCheckable(false);

@@ -10,13 +10,13 @@
 class SA_RIBBON_EXPORT SARibbonMenu : public QMenu
 {
     Q_OBJECT
-public:
+  public:
     explicit SARibbonMenu(QWidget* parent = Q_NULLPTR);
     explicit SARibbonMenu(const QString& title, QWidget* parent = Q_NULLPTR);
-    QAction* addRibbonMenu(SARibbonMenu* menu);
+    QAction*      addRibbonMenu(SARibbonMenu* menu);
     SARibbonMenu* addRibbonMenu(const QString& title);
     SARibbonMenu* addRibbonMenu(const QIcon& icon, const QString& title);
-    QAction* addWidget(QWidget* w);
+    QAction*      addWidget(QWidget* w);
 };
 
-#endif  // SARIBBONMENU_H
+#endif // SARIBBONMENU_H

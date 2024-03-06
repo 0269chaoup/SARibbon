@@ -15,16 +15,16 @@ class Widget : public QWidget
 {
     Q_OBJECT
 
-public:
+  public:
     Widget(QWidget* parent = nullptr);
     ~Widget();
 
-private:
-    void buildRibbon(SARibbonBar* bar);
+  private:
+    void     buildRibbon(SARibbonBar* bar);
     QAction* createAction(const QString& text, const QString& iconurl);
 
-private:
-    Ui::Widget* ui;
-    SARibbonBar* mRibbonBar { nullptr };
+  private:
+    Ui::Widget*  ui;
+    SARibbonBar* mRibbonBar{nullptr};
 };
-#endif  // WIDGET_H
+#endif // WIDGET_H

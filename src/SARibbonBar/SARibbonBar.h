@@ -98,21 +98,21 @@ class SA_RIBBON_EXPORT SARibbonBar : public QMenuBar
     Q_PROPERTY(QColor windowTitleTextColor READ windowTitleTextColor WRITE setWindowTitleTextColor)
     Q_PROPERTY(QColor tabBarBaseLineColor READ tabBarBaseLineColor WRITE setTabBarBaseLineColor)
     Q_PROPERTY(Qt::Alignment windowTitleAligment READ windowTitleAligment WRITE setWindowTitleAligment)
-public:
+  public:
     /**
      * @brief 定义ribbon的风格,第一字节代表样式，第二字节代表是否是2行
      */
     enum RibbonStyle
     {
-        RibbonStyleLooseThreeRow   = 0x0000,         ///< 宽松结构，3行模式
-        RibbonStyleCompactThreeRow = 0x0001,         ///< 紧凑结构，3行模式
-        RibbonStyleLooseTwoRow     = 0x0100,         ///< 宽松结构，2行模式
-        RibbonStyleCompactTwoRow   = 0x0101,         ///< 紧凑结构，2行模式
-                                                     // 以下枚举将组件淘汰
-        OfficeStyle  = RibbonStyleLooseThreeRow,     ///< 类似office 的ribbon风格
-        WpsLiteStyle = RibbonStyleCompactThreeRow,   ///< 类似wps的紧凑风格
-        OfficeStyleTwoRow = RibbonStyleLooseTwoRow,  ///< 类似office 的ribbon风格 2行工具栏 三行布局模式，office就是三行布局模式，pannel能布置3行小toolbutton，默认模式
-        WpsLiteStyleTwoRow = RibbonStyleCompactTwoRow  ///< 类似wps的紧凑风格  2行工具栏
+        RibbonStyleLooseThreeRow   = 0x0000,             ///< 宽松结构，3行模式
+        RibbonStyleCompactThreeRow = 0x0001,             ///< 紧凑结构，3行模式
+        RibbonStyleLooseTwoRow     = 0x0100,             ///< 宽松结构，2行模式
+        RibbonStyleCompactTwoRow   = 0x0101,             ///< 紧凑结构，2行模式
+                                                         // 以下枚举将组件淘汰
+        OfficeStyle        = RibbonStyleLooseThreeRow,   ///< 类似office 的ribbon风格
+        WpsLiteStyle       = RibbonStyleCompactThreeRow, ///< 类似wps的紧凑风格
+        OfficeStyleTwoRow  = RibbonStyleLooseTwoRow,     ///< 类似office 的ribbon风格 2行工具栏 三行布局模式，office就是三行布局模式，pannel能布置3行小toolbutton，默认模式
+        WpsLiteStyleTwoRow = RibbonStyleCompactTwoRow    ///< 类似wps的紧凑风格  2行工具栏
     };
     Q_ENUM(RibbonStyle)
 
@@ -121,12 +121,12 @@ public:
      */
     enum RibbonMode
     {
-        MinimumRibbonMode,  ///< 缩小模式
-        NormalRibbonMode    ///< 正常模式
+        MinimumRibbonMode, ///< 缩小模式
+        NormalRibbonMode   ///< 正常模式
     };
     Q_ENUM(RibbonMode)
 
-public:
+  public:
     // 判断RibbonStyle是否为2行模式
     static bool isTwoRowStyle(RibbonStyle s);
 
@@ -137,9 +137,9 @@ public:
     static QString versionString();
 
     // 获取默认的上下文标签颜色列表
-    static QList< QColor > getDefaultContextCategoryColorList();
+    static QList<QColor> getDefaultContextCategoryColorList();
 
-public:
+  public:
     // 构造函数
     SARibbonBar(QWidget* parent = nullptr);
     ~SARibbonBar() Q_DECL_OVERRIDE;
@@ -154,14 +154,14 @@ public:
 
     // 添加一个标签
     SARibbonCategory* addCategoryPage(const QString& title);
-    void addCategoryPage(SARibbonCategory* category);
+    void              addCategoryPage(SARibbonCategory* category);
 
     // 为了支持Qt designer,添加的一个重载函数
     Q_INVOKABLE void addCategoryPage(QWidget* category);
 
     // 添加一个category，category的位置在index，如果当前category数量少于index，将插入到最后
     SARibbonCategory* insertCategoryPage(const QString& title, int index);
-    void insertCategoryPage(SARibbonCategory* category, int index);
+    void              insertCategoryPage(SARibbonCategory* category, int index);
 
     // 通过名字查找Category
     SARibbonCategory* categoryByName(const QString& title) const;
@@ -188,14 +188,14 @@ public:
     void moveCategory(int from, int to);
 
     // 获取当前显示的所有的SARibbonCategory，包含未显示的SARibbonContextCategory的SARibbonCategory也一并返回
-    QList< SARibbonCategory* > categoryPages(bool getAll = true) const;
+    QList<SARibbonCategory*> categoryPages(bool getAll = true) const;
 
     // 移除SARibbonCategory
     void removeCategory(SARibbonCategory* category);
 
     // 添加一个上下文标签
     SARibbonContextCategory* addContextCategory(const QString& title, const QColor& color = QColor(), const QVariant& id = QVariant());
-    void addContextCategory(SARibbonContextCategory* context);
+    void                     addContextCategory(SARibbonContextCategory* context);
 
     // 显示一个上下文标签
     void showContextCategory(SARibbonContextCategory* context);
@@ -210,7 +210,7 @@ public:
     void setContextCategoryVisible(SARibbonContextCategory* context, bool visible);
 
     // 获取所有的上下文标签
-    QList< SARibbonContextCategory* > contextCategoryList() const;
+    QList<SARibbonContextCategory*> contextCategoryList() const;
 
     // 移除ContextCategory
     void destroyContextCategory(SARibbonContextCategory* context);
@@ -231,13 +231,13 @@ public:
     QAction* minimumModeAction() const;
 
     // ribbon tab的高度
-    int tabBarHeight() const;
+    int  tabBarHeight() const;
     void setTabBarHeight(int h);
     // 标题栏的高度
-    int titleBarHeight() const;
+    int  titleBarHeight() const;
     void setTitleBarHeight(int h);
     // 获取mainBar的高度
-    int mainBarHeight() const;
+    int  mainBarHeight() const;
     void setMainBarHeight(int m);
     // 最小模式下的MainBar高度
     int minimumModeMainBarHeight() const;
@@ -280,13 +280,13 @@ public:
     // 更新ribbon的布局数据，此函数适用于一些关键性尺寸变化，换起ribbon下面元素的布局,在发现刷新问题时，可以调用此函数
     void updateRibbonGeometry();
     // tabbar 底部会绘制一条线条，此接口定义线条颜色
-    void setTabBarBaseLineColor(const QColor& clr);
+    void   setTabBarBaseLineColor(const QColor& clr);
     QColor tabBarBaseLineColor() const;
     // 设置标题颜色,如果不设置标题颜色，默认是SARibbonBar的qss的color属性
-    void setWindowTitleTextColor(const QColor& clr);
+    void   setWindowTitleTextColor(const QColor& clr);
     QColor windowTitleTextColor() const;
     // 设置标题的对齐方式
-    void setWindowTitleAligment(Qt::Alignment al);
+    void          setWindowTitleAligment(Qt::Alignment al);
     Qt::Alignment windowTitleAligment() const;
     // 设置按钮允许换行，注意图标大小是由文字决定的，两行文字会让图标变小，如果想图标变大，文字不换行是最好的
     void setEnableWordWrap(bool on);
@@ -303,12 +303,12 @@ public:
     void setEnableUserDefineRightBarIconSize(bool on = true);
     bool isEnableUserDefineRightBarIconSize() const;
     // 上下文标签的颜色列表，上下文标签显示的时候，会从颜色列表中取颜色进行标签的渲染
-    void setContextCategoryColorList(const QList< QColor >& cls);
-    QList< QColor > getContextCategoryColorList() const;
+    void          setContextCategoryColorList(const QList<QColor>& cls);
+    QList<QColor> getContextCategoryColorList() const;
     // 设置ribbon的对齐方式
-    void setRibbonAlignment(SARibbonAlignment al);
+    void              setRibbonAlignment(SARibbonAlignment al);
     SARibbonAlignment getRibbonAlignment() const;
-signals:
+  signals:
 
     /**
      @brief 应用按钮点击响应 - 左上角的按钮，通过关联此信号触发应用按钮点击的效果
@@ -342,32 +342,30 @@ signals:
      */
     void titleBarHeightChanged(int oldHeight, int newHeight);
 
-
     void tarBarClicked();
 
-
-protected:
+  protected:
     bool eventFilter(QObject* obj, QEvent* e) override;
-    
+
     // 根据情况重置tabbar的宽度，主要针对wps模式
     int calcMinTabBarWidth() const;
     // 更新
     void updateCategoryTitleToTabName();
 
-protected slots:
-    void onWindowTitleChanged(const QString& title);
-    void onWindowIconChanged(const QIcon& i);
-    void onCategoryWindowTitleChanged(const QString& title);
-    void onStackWidgetHided();
+  protected slots:
+    void         onWindowTitleChanged(const QString& title);
+    void         onWindowIconChanged(const QIcon& i);
+    void         onCategoryWindowTitleChanged(const QString& title);
+    void         onStackWidgetHided();
     virtual void onCurrentRibbonTabChanged(int index);
     virtual void onCurrentRibbonTabClicked(int index);
     virtual void onCurrentRibbonTabDoubleClicked(int index);
-    void onContextsCategoryPageAdded(SARibbonCategory* category);
-    void onContextsCategoryCategoryNameChanged(SARibbonCategory* category, const QString& title);
-    void onTabMoved(int from, int to);
+    void         onContextsCategoryPageAdded(SARibbonCategory* category);
+    void         onContextsCategoryCategoryNameChanged(SARibbonCategory* category, const QString& title);
+    void         onTabMoved(int from, int to);
 
-private:
-    int tabIndex(SARibbonCategory* obj);
+  private:
+    int  tabIndex(SARibbonCategory* obj);
     void resizeAll();
     void resizeInOfficeStyle();
     void resizeInWpsLiteStyle();
@@ -379,7 +377,7 @@ private:
     void updateContextCategoryManagerData();
     void synchronousCategoryLayoutMode(bool autoUpdate = true);
 
-protected:
+  protected:
     virtual void paintEvent(QPaintEvent* e) Q_DECL_OVERRIDE;
     virtual void resizeEvent(QResizeEvent* e) Q_DECL_OVERRIDE;
     virtual void moveEvent(QMoveEvent* e) Q_DECL_OVERRIDE;
@@ -390,4 +388,4 @@ protected:
     virtual void paintContextCategoryTab(QPainter& painter, const QString& title, QRect contextRect, const QColor& color);
 };
 
-#endif  // SARIBBONBAR_H
+#endif // SARIBBONBAR_H

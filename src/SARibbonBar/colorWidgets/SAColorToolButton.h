@@ -40,35 +40,35 @@ class SA_COLOR_WIDGETS_API SAColorToolButton : public QToolButton
 {
     Q_OBJECT
     SA_COLOR_WIDGETS_DECLARE_PRIVATE(SAColorToolButton)
-public:
+  public:
     explicit SAColorToolButton(QWidget* parent = nullptr);
     ~SAColorToolButton();
-    //获取颜色
+    // 获取颜色
     QColor getColor() const;
-    //设置Margins
-    void setMargins(const QMargins& mg);
+    // 设置Margins
+    void     setMargins(const QMargins& mg);
     QMargins getMargins() const;
-    //绘制无颜色
+    // 绘制无颜色
     static void paintNoneColor(QPainter* p, const QRect& colorRect);
-public slots:
-    //设置颜色,会发射colorChanged信号
+  public slots:
+    // 设置颜色,会发射colorChanged信号
     void setColor(const QColor& c);
 
-protected:
-    //获取关键的三个rect位置
+  protected:
+    // 获取关键的三个rect位置
     virtual void calcRect(const QStyleOptionToolButton& opt, QRect& iconRect, QRect& textRect, QRect& colorRect);
     virtual void paintButton(QStylePainter* p, const QStyleOptionToolButton& opt);
     virtual void paintIcon(QStylePainter* p, const QRect& iconRect, const QStyleOptionToolButton& opt);
     virtual void paintText(QStylePainter* p, const QRect& textRect, const QStyleOptionToolButton& opt);
     virtual void paintColor(QStylePainter* p, const QRect& colorRect, const QColor& color, const QStyleOptionToolButton& opt);
 
-protected:
-    virtual void paintEvent(QPaintEvent* e) Q_DECL_OVERRIDE;
-    virtual void resizeEvent(QResizeEvent* e) Q_DECL_OVERRIDE;
+  protected:
+    virtual void  paintEvent(QPaintEvent* e) Q_DECL_OVERRIDE;
+    virtual void  resizeEvent(QResizeEvent* e) Q_DECL_OVERRIDE;
     virtual QSize sizeHint() const Q_DECL_OVERRIDE;
-private slots:
+  private slots:
     void onButtonClicked(bool checked = false);
-signals:
+  signals:
     /**
      * @brief 颜色被点击的响应
      * @param color
@@ -81,4 +81,4 @@ signals:
     void colorChanged(const QColor& color);
 };
 
-#endif  // SACOLORTOOLBUTTON_H
+#endif // SACOLORTOOLBUTTON_H

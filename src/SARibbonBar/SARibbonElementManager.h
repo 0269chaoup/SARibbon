@@ -8,17 +8,17 @@
 ///
 class SA_RIBBON_EXPORT SARibbonElementManager
 {
-protected:
+  protected:
     SARibbonElementManager();
 
-public:
+  public:
     virtual ~SARibbonElementManager();
     static SARibbonElementManager* instance();
-    SARibbonElementFactory* factory();
-    void setupFactory(SARibbonElementFactory* fac);
+    SARibbonElementFactory*        factory();
+    void                           setupFactory(SARibbonElementFactory* fac);
 
-private:
-    QScopedPointer< SARibbonElementFactory > mFactory;
+  private:
+    QScopedPointer<SARibbonElementFactory> mFactory;
 };
 #ifndef RibbonSubElementMgr
 #define RibbonSubElementMgr SARibbonElementManager::instance()
@@ -29,4 +29,4 @@ private:
 #ifndef RibbonSubElementStyleOpt
 #define RibbonSubElementStyleOpt SARibbonElementManager::instance()->factory()->getRibbonStyleOption()
 #endif
-#endif  // SARIBBONELEMENTMANAGER_H
+#endif // SARIBBONELEMENTMANAGER_H

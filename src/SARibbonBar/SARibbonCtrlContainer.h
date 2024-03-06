@@ -16,25 +16,25 @@ class SA_RIBBON_EXPORT SARibbonCtrlContainer : public QWidget
 {
     Q_OBJECT
     SA_RIBBON_DECLARE_PRIVATE(SARibbonCtrlContainer)
-public:
+  public:
     SARibbonCtrlContainer(QWidget* parent = Q_NULLPTR);
     ~SARibbonCtrlContainer();
 
     void setEnableShowIcon(bool b);
     void setEnableShowTitle(bool b);
-    //判断是否存在容器窗口
+    // 判断是否存在容器窗口
     bool hasContainerWidget() const;
-    //图标
-    void setIcon(const QIcon& i);
-    void setIcon(const QPixmap& pixmap);
+    // 图标
+    void  setIcon(const QIcon& i);
+    void  setIcon(const QPixmap& pixmap);
     QIcon getIcon() const;
-    //图标
-    void setText(const QString& t);
+    // 图标
+    void    setText(const QString& t);
     QString getText() const;
-    //设置窗口
-    void setContainerWidget(QWidget* w);
-    QWidget* getContainerWidget();
+    // 设置窗口
+    void           setContainerWidget(QWidget* w);
+    QWidget*       getContainerWidget();
     const QWidget* getContainerWidget() const;
 };
 
-#endif  // SARIBBONCTROLCONTAINER_H
+#endif // SARIBBONCTROLCONTAINER_H

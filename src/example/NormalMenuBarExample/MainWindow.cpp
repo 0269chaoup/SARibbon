@@ -1,9 +1,11 @@
 ﻿#include "MainWindow.h"
 #include "ui_MainWindow.h"
 
-MainWindow::MainWindow(QWidget* parent) : SARibbonMainWindow(parent, false)
+MainWindow::MainWindow(QWidget* parent)
+    : SARibbonMainWindow(parent, false)
 {
-    if (!isUseRibbon()) {
+    if (!isUseRibbon())
+    {
         ui = new Ui::MainWindow;
         ui->setupUi(this);
     }

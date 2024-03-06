@@ -17,16 +17,17 @@ class SAFramelessHelper::PrivateData
     SA_RIBBON_DECLARE_PUBLIC(SAFramelessHelper)
     friend class SAPrivateFramelessWidgetData;
 
-public:
+  public:
     PrivateData(SAFramelessHelper* p);
-    QHash< QWidget*, SAPrivateFramelessWidgetData* > m_widgetDataHash;
-    bool m_bWidgetMovable { true };
-    bool m_bWidgetResizable { true };
-    bool m_bRubberBandOnResize { true };
-    bool m_bRubberBandOnMove { true };
+    QHash<QWidget*, SAPrivateFramelessWidgetData*> m_widgetDataHash;
+    bool                                           m_bWidgetMovable{true};
+    bool                                           m_bWidgetResizable{true};
+    bool                                           m_bRubberBandOnResize{true};
+    bool                                           m_bRubberBandOnMove{true};
 };
 
-SAFramelessHelper::PrivateData::PrivateData(SAFramelessHelper* p) : q_ptr(p)
+SAFramelessHelper::PrivateData::PrivateData(SAFramelessHelper* p)
+    : q_ptr(p)
 {
 }
 
@@ -36,21 +37,21 @@ SAFramelessHelper::PrivateData::PrivateData(SAFramelessHelper* p) : q_ptr(p)
  *****/
 class SAPrivateFramelessCursorPosCalculator
 {
-public:
+  public:
     explicit SAPrivateFramelessCursorPosCalculator();
     void reset();
     void recalculate(const QPoint& globalMousePos, const QRect& frameRect);
 
-public:
-    bool m_bOnEdges { true };
-    bool m_bOnLeftEdge { true };
-    bool m_bOnRightEdge { true };
-    bool m_bOnTopEdge { true };
-    bool m_bOnBottomEdge { true };
-    bool m_bOnTopLeftEdge { true };
-    bool m_bOnBottomLeftEdge { true };
-    bool m_bOnTopRightEdge { true };
-    bool m_bOnBottomRightEdge { true };
+  public:
+    bool m_bOnEdges{true};
+    bool m_bOnLeftEdge{true};
+    bool m_bOnRightEdge{true};
+    bool m_bOnTopEdge{true};
+    bool m_bOnBottomEdge{true};
+    bool m_bOnTopLeftEdge{true};
+    bool m_bOnBottomLeftEdge{true};
+    bool m_bOnTopRightEdge{true};
+    bool m_bOnBottomRightEdge{true};
 
     static int m_nBorderWidth;
     static int m_nTitleHeight;
@@ -111,7 +112,7 @@ void SAPrivateFramelessCursorPosCalculator::recalculate(const QPoint& gMousePos,
  *****/
 class SAPrivateFramelessWidgetData
 {
-public:
+  public:
     explicit SAPrivateFramelessWidgetData(SAFramelessHelper::PrivateData* pd, QWidget* pTopLevelWidget);
     ~SAPrivateFramelessWidgetData();
     QWidget* widget();
@@ -122,7 +123,7 @@ public:
     // 更新橡皮筋状态
     void updateRubberBandStatus();
 
-private:
+  private:
     // 更新鼠标样式
     void updateCursorShape(const QPoint& gMousePos);
 
@@ -147,20 +148,20 @@ private:
     // 处理鼠标进入
     bool handleHoverMoveEvent(QHoverEvent* event);
 
-    //处理鼠标双击事件
+    // 处理鼠标双击事件
     bool handleDoubleClickedMouseEvent(QMouseEvent* event);
 
-private:
-    SAFramelessHelper::PrivateData* d;
-    QRubberBand* m_pRubberBand;
-    QWidget* m_pWidget;
-    QPoint m_ptDragPos;
+  private:
+    SAFramelessHelper::PrivateData*       d;
+    QRubberBand*                          m_pRubberBand;
+    QWidget*                              m_pWidget;
+    QPoint                                m_ptDragPos;
     SAPrivateFramelessCursorPosCalculator m_pressedMousePos;
     SAPrivateFramelessCursorPosCalculator m_moveMousePos;
-    bool m_bLeftButtonPressed;
-    bool m_bCursorShapeChanged;
-    bool m_bLeftButtonTitlePressed;
-    Qt::WindowFlags m_windowFlags;
+    bool                                  m_bLeftButtonPressed;
+    bool                                  m_bCursorShapeChanged;
+    bool                                  m_bLeftButtonTitlePressed;
+    Qt::WindowFlags                       m_windowFlags;
 };
 
 /***** WidgetData *****/
@@ -197,24 +198,25 @@ QWidget* SAPrivateFramelessWidgetData::widget()
 
 bool SAPrivateFramelessWidgetData::handleWidgetEvent(QEvent* event)
 {
-    switch (event->type()) {
+    switch (event->type())
+    {
     case QEvent::MouseButtonPress:
-        return (handleMousePressEvent(static_cast< QMouseEvent* >(event)));
+        return (handleMousePressEvent(static_cast<QMouseEvent*>(event)));
 
     case QEvent::MouseButtonRelease:
-        return (handleMouseReleaseEvent(static_cast< QMouseEvent* >(event)));
+        return (handleMouseReleaseEvent(static_cast<QMouseEvent*>(event)));
 
     case QEvent::MouseMove:
-        return (handleMouseMoveEvent(static_cast< QMouseEvent* >(event)));
+        return (handleMouseMoveEvent(static_cast<QMouseEvent*>(event)));
 
     case QEvent::Leave:
-        return (handleLeaveEvent(static_cast< QMouseEvent* >(event)));
+        return (handleLeaveEvent(static_cast<QMouseEvent*>(event)));
 
     case QEvent::HoverMove:
-        return (handleHoverMoveEvent(static_cast< QHoverEvent* >(event)));
+        return (handleHoverMoveEvent(static_cast<QHoverEvent*>(event)));
 
     case QEvent::MouseButtonDblClick:
-        return (handleDoubleClickedMouseEvent(static_cast< QMouseEvent* >(event)));
+        return (handleDoubleClickedMouseEvent(static_cast<QMouseEvent*>(event)));
 
     default:
         break;
@@ -224,11 +226,15 @@ bool SAPrivateFramelessWidgetData::handleWidgetEvent(QEvent* event)
 
 void SAPrivateFramelessWidgetData::updateRubberBandStatus()
 {
-    if (d->m_bRubberBandOnMove || d->m_bRubberBandOnResize) {
-        if (NULL == m_pRubberBand) {
+    if (d->m_bRubberBandOnMove || d->m_bRubberBandOnResize)
+    {
+        if (NULL == m_pRubberBand)
+        {
             m_pRubberBand = new QRubberBand(QRubberBand::Rectangle);
         }
-    } else {
+    }
+    else
+    {
         delete m_pRubberBand;
         m_pRubberBand = NULL;
     }
@@ -236,8 +242,10 @@ void SAPrivateFramelessWidgetData::updateRubberBandStatus()
 
 void SAPrivateFramelessWidgetData::updateCursorShape(const QPoint& gMousePos)
 {
-    if (m_pWidget->isFullScreen() || m_pWidget->isMaximized()) {
-        if (m_bCursorShapeChanged) {
+    if (m_pWidget->isFullScreen() || m_pWidget->isMaximized())
+    {
+        if (m_bCursorShapeChanged)
+        {
             m_pWidget->unsetCursor();
         }
         return;
@@ -245,20 +253,30 @@ void SAPrivateFramelessWidgetData::updateCursorShape(const QPoint& gMousePos)
 
     m_moveMousePos.recalculate(gMousePos, m_pWidget->frameGeometry());
 
-    if (m_moveMousePos.m_bOnTopLeftEdge || m_moveMousePos.m_bOnBottomRightEdge) {
+    if (m_moveMousePos.m_bOnTopLeftEdge || m_moveMousePos.m_bOnBottomRightEdge)
+    {
         m_pWidget->setCursor(Qt::SizeFDiagCursor);
         m_bCursorShapeChanged = true;
-    } else if (m_moveMousePos.m_bOnTopRightEdge || m_moveMousePos.m_bOnBottomLeftEdge) {
+    }
+    else if (m_moveMousePos.m_bOnTopRightEdge || m_moveMousePos.m_bOnBottomLeftEdge)
+    {
         m_pWidget->setCursor(Qt::SizeBDiagCursor);
         m_bCursorShapeChanged = true;
-    } else if (m_moveMousePos.m_bOnLeftEdge || m_moveMousePos.m_bOnRightEdge) {
+    }
+    else if (m_moveMousePos.m_bOnLeftEdge || m_moveMousePos.m_bOnRightEdge)
+    {
         m_pWidget->setCursor(Qt::SizeHorCursor);
         m_bCursorShapeChanged = true;
-    } else if (m_moveMousePos.m_bOnTopEdge || m_moveMousePos.m_bOnBottomEdge) {
+    }
+    else if (m_moveMousePos.m_bOnTopEdge || m_moveMousePos.m_bOnBottomEdge)
+    {
         m_pWidget->setCursor(Qt::SizeVerCursor);
         m_bCursorShapeChanged = true;
-    } else {
-        if (m_bCursorShapeChanged) {
+    }
+    else
+    {
+        if (m_bCursorShapeChanged)
+        {
             m_pWidget->unsetCursor();
             m_bCursorShapeChanged = false;
         }
@@ -269,9 +287,12 @@ void SAPrivateFramelessWidgetData::resizeWidget(const QPoint& gMousePos)
 {
     QRect origRect;
 
-    if (d->m_bRubberBandOnResize) {
+    if (d->m_bRubberBandOnResize)
+    {
         origRect = m_pRubberBand->frameGeometry();
-    } else {
+    }
+    else
+    {
         origRect = m_pWidget->frameGeometry();
     }
 
@@ -285,49 +306,76 @@ void SAPrivateFramelessWidgetData::resizeWidget(const QPoint& gMousePos)
     int minWidth  = m_pWidget->minimumWidth();
     int minHeight = m_pWidget->minimumHeight();
 
-    if (m_pressedMousePos.m_bOnTopLeftEdge) {
+    if (m_pressedMousePos.m_bOnTopLeftEdge)
+    {
         left = gMousePos.x();
         top  = gMousePos.y();
-    } else if (m_pressedMousePos.m_bOnBottomLeftEdge) {
+    }
+    else if (m_pressedMousePos.m_bOnBottomLeftEdge)
+    {
         left   = gMousePos.x();
         bottom = gMousePos.y();
-    } else if (m_pressedMousePos.m_bOnTopRightEdge) {
+    }
+    else if (m_pressedMousePos.m_bOnTopRightEdge)
+    {
         right = gMousePos.x();
         top   = gMousePos.y();
-    } else if (m_pressedMousePos.m_bOnBottomRightEdge) {
+    }
+    else if (m_pressedMousePos.m_bOnBottomRightEdge)
+    {
         right  = gMousePos.x();
         bottom = gMousePos.y();
-    } else if (m_pressedMousePos.m_bOnLeftEdge) {
+    }
+    else if (m_pressedMousePos.m_bOnLeftEdge)
+    {
         left = gMousePos.x();
-    } else if (m_pressedMousePos.m_bOnRightEdge) {
+    }
+    else if (m_pressedMousePos.m_bOnRightEdge)
+    {
         right = gMousePos.x();
-    } else if (m_pressedMousePos.m_bOnTopEdge) {
+    }
+    else if (m_pressedMousePos.m_bOnTopEdge)
+    {
         top = gMousePos.y();
-    } else if (m_pressedMousePos.m_bOnBottomEdge) {
+    }
+    else if (m_pressedMousePos.m_bOnBottomEdge)
+    {
         bottom = gMousePos.y();
     }
 
     QRect newRect(QPoint(left, top), QPoint(right, bottom));
 
-    if (newRect.isValid()) {
-        if (minWidth > newRect.width()) {
-            if (left != origRect.left()) {
+    if (newRect.isValid())
+    {
+        if (minWidth > newRect.width())
+        {
+            if (left != origRect.left())
+            {
                 newRect.setLeft(origRect.left());
-            } else {
+            }
+            else
+            {
                 newRect.setRight(origRect.right());
             }
         }
-        if (minHeight > newRect.height()) {
-            if (top != origRect.top()) {
+        if (minHeight > newRect.height())
+        {
+            if (top != origRect.top())
+            {
                 newRect.setTop(origRect.top());
-            } else {
+            }
+            else
+            {
                 newRect.setBottom(origRect.bottom());
             }
         }
 
-        if (d->m_bRubberBandOnResize) {
+        if (d->m_bRubberBandOnResize)
+        {
             m_pRubberBand->setGeometry(newRect);
-        } else {
+        }
+        else
+        {
             m_pWidget->setGeometry(newRect);
         }
     }
@@ -335,16 +383,20 @@ void SAPrivateFramelessWidgetData::resizeWidget(const QPoint& gMousePos)
 
 void SAPrivateFramelessWidgetData::moveWidget(const QPoint& gMousePos)
 {
-    if (d->m_bRubberBandOnMove) {
+    if (d->m_bRubberBandOnMove)
+    {
         m_pRubberBand->move(gMousePos - m_ptDragPos);
-    } else {
+    }
+    else
+    {
         m_pWidget->move(gMousePos - m_ptDragPos);
     }
 }
 
 bool SAPrivateFramelessWidgetData::handleMousePressEvent(QMouseEvent* event)
 {
-    if (event->button() == Qt::LeftButton) {
+    if (event->button() == Qt::LeftButton)
+    {
         m_bLeftButtonPressed      = true;
         m_bLeftButtonTitlePressed = event->pos().y() < m_moveMousePos.m_nTitleHeight;
 
@@ -353,19 +405,25 @@ bool SAPrivateFramelessWidgetData::handleMousePressEvent(QMouseEvent* event)
 
         m_ptDragPos = event->globalPos() - frameRect.topLeft();
 
-        if (m_pressedMousePos.m_bOnEdges) {
-            if (m_pWidget->isMaximized()) {
-                //窗口在最大化状态时，点击边界不做任何处理
+        if (m_pressedMousePos.m_bOnEdges)
+        {
+            if (m_pWidget->isMaximized())
+            {
+                // 窗口在最大化状态时，点击边界不做任何处理
                 return (false);
             }
-            if (d->m_bRubberBandOnResize) {
+            if (d->m_bRubberBandOnResize)
+            {
                 m_pRubberBand->setGeometry(frameRect);
                 m_pRubberBand->show();
                 return (true);
             }
-        } else if (d->m_bRubberBandOnMove && m_bLeftButtonTitlePressed) {
-            if (m_pWidget->isMaximized()) {
-                //窗口在最大化状态时，点击标题栏不做任何处理
+        }
+        else if (d->m_bRubberBandOnMove && m_bLeftButtonTitlePressed)
+        {
+            if (m_pWidget->isMaximized())
+            {
+                // 窗口在最大化状态时，点击标题栏不做任何处理
                 return (false);
             }
             m_pRubberBand->setGeometry(frameRect);
@@ -378,11 +436,13 @@ bool SAPrivateFramelessWidgetData::handleMousePressEvent(QMouseEvent* event)
 
 bool SAPrivateFramelessWidgetData::handleMouseReleaseEvent(QMouseEvent* event)
 {
-    if (event->button() == Qt::LeftButton) {
+    if (event->button() == Qt::LeftButton)
+    {
         m_bLeftButtonPressed      = false;
         m_bLeftButtonTitlePressed = false;
         m_pressedMousePos.reset();
-        if (m_pRubberBand && m_pRubberBand->isVisible()) {
+        if (m_pRubberBand && m_pRubberBand->isVisible())
+        {
             m_pRubberBand->hide();
             m_pWidget->setGeometry(m_pRubberBand->geometry());
             return (true);
@@ -393,24 +453,30 @@ bool SAPrivateFramelessWidgetData::handleMouseReleaseEvent(QMouseEvent* event)
 
 bool SAPrivateFramelessWidgetData::handleMouseMoveEvent(QMouseEvent* event)
 {
-    if (m_bLeftButtonPressed) {
-        if (d->m_bWidgetResizable && m_pressedMousePos.m_bOnEdges) {
-            if (m_pWidget->isMaximized()) {
-                //窗口在最大化状态时，点击边界不做任何处理
+    if (m_bLeftButtonPressed)
+    {
+        if (d->m_bWidgetResizable && m_pressedMousePos.m_bOnEdges)
+        {
+            if (m_pWidget->isMaximized())
+            {
+                // 窗口在最大化状态时，点击边界不做任何处理
                 return (false);
             }
             resizeWidget(event->globalPos());
             return (true);
-        } else if (d->m_bWidgetMovable && m_bLeftButtonTitlePressed) {
-            if (m_pWidget->isMaximized()) {
-                //先求出窗口到鼠标的相对位置
+        }
+        else if (d->m_bWidgetMovable && m_bLeftButtonTitlePressed)
+        {
+            if (m_pWidget->isMaximized())
+            {
+                // 先求出窗口到鼠标的相对位置
                 QRect normalGeometry = m_pWidget->normalGeometry();
                 m_pWidget->showNormal();
                 QPoint p = event->globalPos();
                 p.ry() -= 10;
                 p.rx() -= (normalGeometry.width() / 2);
                 m_pWidget->move(p);
-                //这时要重置m_ptDragPos
+                // 这时要重置m_ptDragPos
                 m_ptDragPos = QPoint(normalGeometry.width() / 2, 10);
                 return (true);
             }
@@ -418,7 +484,9 @@ bool SAPrivateFramelessWidgetData::handleMouseMoveEvent(QMouseEvent* event)
             return (true);
         }
         return (false);
-    } else if (d->m_bWidgetResizable) {
+    }
+    else if (d->m_bWidgetResizable)
+    {
         updateCursorShape(event->globalPos());
     }
     return (false);
@@ -427,7 +495,8 @@ bool SAPrivateFramelessWidgetData::handleMouseMoveEvent(QMouseEvent* event)
 bool SAPrivateFramelessWidgetData::handleLeaveEvent(QEvent* event)
 {
     Q_UNUSED(event)
-    if (!m_bLeftButtonPressed) {
+    if (!m_bLeftButtonPressed)
+    {
         m_pWidget->unsetCursor();
         return (true);
     }
@@ -436,7 +505,8 @@ bool SAPrivateFramelessWidgetData::handleLeaveEvent(QEvent* event)
 
 bool SAPrivateFramelessWidgetData::handleHoverMoveEvent(QHoverEvent* event)
 {
-    if (d->m_bWidgetResizable) {
+    if (d->m_bWidgetResizable)
+    {
         updateCursorShape(m_pWidget->mapToGlobal(event->pos()));
     }
     return (false);
@@ -444,17 +514,25 @@ bool SAPrivateFramelessWidgetData::handleHoverMoveEvent(QHoverEvent* event)
 
 bool SAPrivateFramelessWidgetData::handleDoubleClickedMouseEvent(QMouseEvent* event)
 {
-    if (event->button() == Qt::LeftButton) {
-        if (m_pWidget) {
-            SARibbonMainWindow* mainwindow = qobject_cast< SARibbonMainWindow* >(m_pWidget);
-            if (mainwindow) {
-                if (mainwindow->windowButtonFlags() & Qt::WindowMaximizeButtonHint) {
-                    //在最大化按钮显示时才进行shownormal处理
+    if (event->button() == Qt::LeftButton)
+    {
+        if (m_pWidget)
+        {
+            SARibbonMainWindow* mainwindow = qobject_cast<SARibbonMainWindow*>(m_pWidget);
+            if (mainwindow)
+            {
+                if (mainwindow->windowButtonFlags() & Qt::WindowMaximizeButtonHint)
+                {
+                    // 在最大化按钮显示时才进行shownormal处理
                     bool titlePressed = event->pos().y() < m_moveMousePos.m_nTitleHeight;
-                    if (titlePressed) {
-                        if (m_pWidget->isMaximized()) {
+                    if (titlePressed)
+                    {
+                        if (m_pWidget->isMaximized())
+                        {
                             m_pWidget->showNormal();
-                        } else {
+                        }
+                        else
+                        {
                             m_pWidget->showMaximized();
                         }
                         return (true);
@@ -469,46 +547,52 @@ bool SAPrivateFramelessWidgetData::handleDoubleClickedMouseEvent(QMouseEvent* ev
 //===================================================
 // SAFramelessHelper
 //===================================================
-SAFramelessHelper::SAFramelessHelper(QObject* parent) : QObject(parent), d_ptr(new SAFramelessHelper::PrivateData(this))
+SAFramelessHelper::SAFramelessHelper(QObject* parent)
+    : QObject(parent), d_ptr(new SAFramelessHelper::PrivateData(this))
 {
     d_ptr->m_bWidgetMovable      = true;
     d_ptr->m_bWidgetResizable    = true;
     d_ptr->m_bRubberBandOnResize = false;
     d_ptr->m_bRubberBandOnMove   = false;
-    if (parent) {
-        QWidget* w = qobject_cast< QWidget* >(parent);
-        if (w) {
+    if (parent)
+    {
+        QWidget* w = qobject_cast<QWidget*>(parent);
+        if (w)
+        {
             w->setWindowFlags(w->windowFlags() | Qt::FramelessWindowHint);
-            setWidgetMovable(true);       //设置窗体可移动
-            setWidgetResizable(true);     //设置窗体可缩放
-            setRubberBandOnMove(false);   //设置橡皮筋效果-可移动
-            setRubberBandOnResize(true);  //设置橡皮筋效果-可缩放
-            activateOn(w);                //激活当前窗体
+            setWidgetMovable(true);      // 设置窗体可移动
+            setWidgetResizable(true);    // 设置窗体可缩放
+            setRubberBandOnMove(false);  // 设置橡皮筋效果-可移动
+            setRubberBandOnResize(true); // 设置橡皮筋效果-可缩放
+            activateOn(w);               // 激活当前窗体
         }
     }
 }
 
 SAFramelessHelper::~SAFramelessHelper()
 {
-    QList< QWidget* > keys = d_ptr->m_widgetDataHash.keys();
-    int size               = keys.size();
+    QList<QWidget*> keys = d_ptr->m_widgetDataHash.keys();
+    int             size = keys.size();
 
-    for (int i = 0; i < size; ++i) {
-        delete d_ptr->m_widgetDataHash.take(keys[ i ]);
+    for (int i = 0; i < size; ++i)
+    {
+        delete d_ptr->m_widgetDataHash.take(keys[i]);
     }
 }
 
 bool SAFramelessHelper::eventFilter(QObject* obj, QEvent* event)
 {
-    switch (event->type()) {
+    switch (event->type())
+    {
     case QEvent::MouseMove:
     case QEvent::HoverMove:
     case QEvent::MouseButtonPress:
     case QEvent::MouseButtonRelease:
     case QEvent::MouseButtonDblClick:
     case QEvent::Leave: {
-        SAPrivateFramelessWidgetData* data = d_ptr->m_widgetDataHash.value(static_cast< QWidget* >(obj));
-        if (data) {
+        SAPrivateFramelessWidgetData* data = d_ptr->m_widgetDataHash.value(static_cast<QWidget*>(obj));
+        if (data)
+        {
             return (data->handleWidgetEvent(event));
         }
         break;
@@ -522,7 +606,8 @@ bool SAFramelessHelper::eventFilter(QObject* obj, QEvent* event)
 
 void SAFramelessHelper::activateOn(QWidget* topLevelWidget)
 {
-    if (!d_ptr->m_widgetDataHash.contains(topLevelWidget)) {
+    if (!d_ptr->m_widgetDataHash.contains(topLevelWidget))
+    {
         SAPrivateFramelessWidgetData* data = new SAPrivateFramelessWidgetData(d_ptr.get(), topLevelWidget);
         d_ptr->m_widgetDataHash.insert(topLevelWidget, data);
 
@@ -534,7 +619,8 @@ void SAFramelessHelper::removeFrom(QWidget* topLevelWidget)
 {
     SAPrivateFramelessWidgetData* data = d_ptr->m_widgetDataHash.take(topLevelWidget);
 
-    if (data) {
+    if (data)
+    {
         topLevelWidget->removeEventFilter(this);
         delete data;
     }
@@ -542,10 +628,11 @@ void SAFramelessHelper::removeFrom(QWidget* topLevelWidget)
 
 void SAFramelessHelper::setRubberBandOnMove(bool movable)
 {
-    d_ptr->m_bRubberBandOnMove                  = movable;
-    QList< SAPrivateFramelessWidgetData* > list = d_ptr->m_widgetDataHash.values();
+    d_ptr->m_bRubberBandOnMove                = movable;
+    QList<SAPrivateFramelessWidgetData*> list = d_ptr->m_widgetDataHash.values();
 
-    foreach (SAPrivateFramelessWidgetData* data, list) {
+    foreach (SAPrivateFramelessWidgetData* data, list)
+    {
         data->updateRubberBandStatus();
     }
 }
@@ -562,24 +649,27 @@ void SAFramelessHelper::setWidgetResizable(bool resizable)
 
 void SAFramelessHelper::setRubberBandOnResize(bool resizable)
 {
-    d_ptr->m_bRubberBandOnResize                = resizable;
-    QList< SAPrivateFramelessWidgetData* > list = d_ptr->m_widgetDataHash.values();
+    d_ptr->m_bRubberBandOnResize              = resizable;
+    QList<SAPrivateFramelessWidgetData*> list = d_ptr->m_widgetDataHash.values();
 
-    foreach (SAPrivateFramelessWidgetData* data, list) {
+    foreach (SAPrivateFramelessWidgetData* data, list)
+    {
         data->updateRubberBandStatus();
     }
 }
 
 void SAFramelessHelper::setBorderWidth(int width)
 {
-    if (width > 0) {
+    if (width > 0)
+    {
         SAPrivateFramelessCursorPosCalculator::m_nBorderWidth = width;
     }
 }
 
 void SAFramelessHelper::setTitleHeight(int height)
 {
-    if (height > 0) {
+    if (height > 0)
+    {
         SAPrivateFramelessCursorPosCalculator::m_nTitleHeight = height;
     }
 }

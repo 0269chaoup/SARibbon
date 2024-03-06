@@ -123,7 +123,7 @@
 #endif
 
 #ifndef SA_RIBBON_BAR_NO_EXPORT
-#if defined(SA_RIBBON_BAR_MAKE_LIB)  // 定义此宏将构建library
+#if defined(SA_RIBBON_BAR_MAKE_LIB) // 定义此宏将构建library
 #define SA_RIBBON_EXPORT Q_DECL_EXPORT
 #else
 #define SA_RIBBON_EXPORT Q_DECL_IMPORT
@@ -138,19 +138,19 @@
  * @def   模仿Q_DECLARE_PRIVATE，但不用前置声明而是作为一个内部类
  */
 #ifndef SA_RIBBON_DECLARE_PRIVATE
-#define SA_RIBBON_DECLARE_PRIVATE(classname)                                                                           \
-    class PrivateData;                                                                                                 \
-    friend class classname::PrivateData;                                                                               \
-    std::unique_ptr< PrivateData > d_ptr;
+#define SA_RIBBON_DECLARE_PRIVATE(classname) \
+    class PrivateData;                       \
+    friend class classname::PrivateData;     \
+    std::unique_ptr<PrivateData> d_ptr;
 #endif
 /**
  * @def   模仿Q_DECLARE_PUBLIC
  */
 #ifndef SA_RIBBON_DECLARE_PUBLIC
-#define SA_RIBBON_DECLARE_PUBLIC(classname)                                                                            \
-    friend class classname;                                                                                            \
-    classname* q_ptr { nullptr };                                                                                      \
-    PrivateData(const PrivateData&) = delete;                                                                          \
+#define SA_RIBBON_DECLARE_PUBLIC(classname)              \
+    friend class classname;                              \
+    classname* q_ptr{nullptr};                           \
+    PrivateData(const PrivateData&)            = delete; \
     PrivateData& operator=(const PrivateData&) = delete;
 #endif
 
@@ -159,8 +159,8 @@
  */
 enum class SARibbonAlignment
 {
-    AlignLeft,   ///< 左对齐，tab栏左对齐，同时category也是左对齐
-    AlignCenter  ///< 居中对其，tab栏居中对齐，同时category也是居中对齐
+    AlignLeft,  ///< 左对齐，tab栏左对齐，同时category也是左对齐
+    AlignCenter ///< 居中对其，tab栏居中对齐，同时category也是居中对齐
 };
 
 /**
@@ -205,4 +205,4 @@ enum class SARibbonAlignment
  */
 #define SA_DEBUG_PRINT_EVENT 0
 #endif
-#endif  // SARIBBONGLOBAL_H
+#endif // SARIBBONGLOBAL_H

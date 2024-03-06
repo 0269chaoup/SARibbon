@@ -214,7 +214,6 @@ void SARibbonToolButton::PrivateData::updateDrawRect(const QStyleOptionToolButto
 			mIndicatorLen = 12;  // 小按钮模式下设置为10
 		}
 	}
-	//@zzc Modify 修改 spacign -> 4
 	calcDrawRects(opt, mDrawIconRect, mDrawTextRect, mDrawIndicatorArrowRect, 4, mIndicatorLen);
 }
 
@@ -247,7 +246,6 @@ void SARibbonToolButton::PrivateData::calcDrawRects(const QStyleOptionToolButton
 		calcLargeButtonDrawRects(opt, iconRect, textRect, indicatorArrowRect, spacing, indicatorLen);
 
 	} else {
-		//@zzc Modify spacing=4 会导致 smallButton 空间不足
 		calcSmallButtonDrawRects(opt, iconRect, textRect, indicatorArrowRect, 3, indicatorLen);
 	}
 }
@@ -268,7 +266,6 @@ void SARibbonToolButton::PrivateData::calcSmallButtonDrawRects(const QStyleOptio
                                                                int spacing,
                                                                int indicatorLen) const
 {
-	/*spacing @zzc Modify 同步smallButton icon with text width = 2*/
 	int spacingIconWithTextWidth = 2;
 	spacing                      = 2;  //@111
 	switch (opt.toolButtonStyle) {
@@ -302,8 +299,8 @@ void SARibbonToolButton::PrivateData::calcSmallButtonDrawRects(const QStyleOptio
 		QRect buttonRect = q_ptr->rect();
 		buttonRect.adjust(spacingIconWithTextWidth,
 		                  spacingIconWithTextWidth,
-		                  /*-spacingIconWithTextWidth @1111*/ 0,
-		                  -spacingIconWithTextWidth);  // @zzc note: 用于获取原本控件的Rect ,adjust 用于设置内边距
+		                   0,
+		                  -spacingIconWithTextWidth);  
 		// 先设置IconRect
 		if (opt.icon.isNull()) {
 			// 没有图标
@@ -357,9 +354,6 @@ void SARibbonToolButton::PrivateData::calcLargeButtonDrawRects(const QStyleOptio
                                                                int spacing,
                                                                int indicatorLen) const
 {
-	// @zzc Modify
-	//		大图标，icon和text之间的spacing 为8px；
-	//		icon和按钮边界之间的距离为 4px,spacing->4 ,
 	int iconSpacingText = 8;
 	spacing             = 4;
 
@@ -402,8 +396,6 @@ void SARibbonToolButton::PrivateData::calcLargeButtonDrawRects(const QStyleOptio
 			textRect = QRect(spacing, y, opt.rect.width() - 2 * spacing, textHeight);
 		}
 	}
-	// 剩下就是icon区域 //@zzc Modify 前面注释 by author
-	// iconRect = QRect(spacing, spacing, opt.rect.width() - 2 * spacing, textRect.top() - 2 * spacing);
 	iconRect = QRect(spacing, spacing, opt.rect.width() - 2 * spacing, textRect.top() - iconSpacingText);
 }
 
@@ -453,9 +445,8 @@ QSize SARibbonToolButton::PrivateData::calcSizeHint(const QStyleOptionToolButton
 QSize SARibbonToolButton::PrivateData::calcSmallButtonSizeHint(const QStyleOptionToolButton& opt)
 {
 	int w = 0, h = 0;
-	//@zzc Modify 更新sizeHint 解决 文本显示不全问题
 	mSpacing            = 4;
-	int spacing         = 2;  //@zzc Modify 修改icon with text width
+	int spacing         = 2;  
 	switch (opt.toolButtonStyle) {
 	case Qt::ToolButtonIconOnly: {
 		w = opt.iconSize.width() + 2 * mSpacing;
@@ -470,18 +461,18 @@ QSize SARibbonToolButton::PrivateData::calcSmallButtonSizeHint(const QStyleOptio
 	} break;
 	default: {
 		// 先加入icon的尺寸
-		w = opt.iconSize.width() + 2 * spacing;  //@zzc Modify UI需求 需更改Icon with text 之间的间距;
+		w = opt.iconSize.width() + 2 * spacing;  
 		h = opt.iconSize.height() + 2 * spacing;
 		// 再加入文本的长度
 		if (!opt.text.isEmpty()) {
 			QSize textSize = opt.fontMetrics.size(Qt::TextShowMnemonic, simplified(opt.text)); 
-			textSize.setWidth(textSize.width() /*+ SA_FONTMETRICS_WIDTH(opt.fontMetrics, (QLatin1Char(' '))) * 2  //@zzc Modify UI需求 需更改Icon with text 之间的间距,故去掉text两侧的 spacing*/);
+			textSize.setWidth(textSize.width());
 			textSize.setHeight(calcTextDrawRectHeight(opt));
-			w += 4;  // icon 和 text之间的间距 @zzc Modify 根据UI调整
+			w += 4;  
 			w += textSize.width();
 			h = qMax(h, (textSize.height() + (2 * spacing)));
 		} else {
-			// 没有文本的时候也要设置一下高度
+		
 			QSize textSize = opt.fontMetrics.size(Qt::TextShowMnemonic, " ");
 			h              = qMax(h, (textSize.height() + (2 * spacing)));
 		}
@@ -924,17 +915,6 @@ void SARibbonToolButton::paintIcon(QPainter& p, const QStyleOptionToolButton& op
 	}
 
 	QPixmap pm = d_ptr->createIconPixmap(opt, iconDrawRect.size());
-	// @zzc 根据UI图进行修改
-	// origin    style()->drawItemPixmap(&p, iconDrawRect, Qt::AlignCenter, pm);
-
-	// after modify
-	/*if (isSmallRibbonButton()) {
-	    style()->drawItemPixmap(&p, iconDrawRect, Qt::AlignCenter, pm);
-	} else if (isLargeRibbonButton()) {
-	    style()->drawItemPixmap(&p, iconDrawRect, Qt::AlignHCenter | Qt::AlignTop, pm);
-	}*/
-
-	// undo modify
 	style()->drawItemPixmap(&p, iconDrawRect, Qt::AlignCenter, pm);
 	SARIBBONTOOLBUTTON_DEBUG_DRAW_RECT(p, iconDrawRect);
 }

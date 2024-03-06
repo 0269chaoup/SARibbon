@@ -5,7 +5,8 @@
 #include "SARibbonPannel.h"
 #include "SARibbonMainWindow.h"
 #include "SARibbonQuickAccessBar.h"
-Widget::Widget(QWidget* parent) : QWidget(parent), ui(new Ui::Widget)
+Widget::Widget(QWidget* parent)
+    : QWidget(parent), ui(new Ui::Widget)
 {
     // 注意：ui文件中有个QVBoxLayout布局
     ui->setupUi(this);
@@ -17,7 +18,7 @@ Widget::Widget(QWidget* parent) : QWidget(parent), ui(new Ui::Widget)
     mRibbonBar->setRibbonStyle(SARibbonBar::RibbonStyleCompactThreeRow);
     // 取消applicationbutton
     mRibbonBar->setApplicationButton(nullptr);
-    //设置主题，这里虽然没用到SARibbonMainWindow，但Ribbon的主题是SARibbonMainWindow中定义的，因此要引入SARibbonMainWindow.h
+    // 设置主题，这里虽然没用到SARibbonMainWindow，但Ribbon的主题是SARibbonMainWindow中定义的，因此要引入SARibbonMainWindow.h
     sa_set_ribbon_theme(mRibbonBar, SARibbonMainWindow::RibbonThemeOffice2013);
 
     // QWidgets设置一个QVBoxLayout，把窗口放到QVBoxLayout的第二个布局中，第一个布局给SARibbonBar

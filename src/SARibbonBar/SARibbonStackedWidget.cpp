@@ -11,11 +11,12 @@
 class SARibbonStackedWidget::PrivateData
 {
     SA_RIBBON_DECLARE_PUBLIC(SARibbonStackedWidget)
-public:
-    QEventLoop* eventLoop { nullptr };
+  public:
+    QEventLoop* eventLoop{nullptr};
 
-public:
-    PrivateData(SARibbonStackedWidget* p) : q_ptr(p)
+  public:
+    PrivateData(SARibbonStackedWidget* p)
+        : q_ptr(p)
     {
     }
 
@@ -34,7 +35,8 @@ SARibbonStackedWidget::SARibbonStackedWidget(QWidget* parent)
 
 SARibbonStackedWidget::~SARibbonStackedWidget()
 {
-    if (d_ptr->eventLoop) {
+    if (d_ptr->eventLoop)
+    {
         d_ptr->eventLoop->exit();
     }
 }
@@ -53,7 +55,8 @@ bool SARibbonStackedWidget::isPopupMode() const
 
 void SARibbonStackedWidget::setNormalMode()
 {
-    if (d_ptr->eventLoop) {
+    if (d_ptr->eventLoop)
+    {
         d_ptr->eventLoop->exit();
         d_ptr->eventLoop = nullptr;
     }
@@ -70,7 +73,8 @@ bool SARibbonStackedWidget::isNormalMode() const
 void SARibbonStackedWidget::exec()
 {
     show();
-    if (!isPopupMode()) {
+    if (!isPopupMode())
+    {
         d_ptr->eventLoop = nullptr;
         return;
     }
@@ -97,8 +101,10 @@ void SARibbonStackedWidget::moveWidget(int from, int to)
 
 void SARibbonStackedWidget::hideEvent(QHideEvent* e)
 {
-    if (isPopupMode()) {
-        if (d_ptr->eventLoop) {
+    if (isPopupMode())
+    {
+        if (d_ptr->eventLoop)
+        {
             d_ptr->eventLoop->exit();
         }
     }
@@ -111,8 +117,10 @@ void SARibbonStackedWidget::hideEvent(QHideEvent* e)
 void SARibbonStackedWidget::resizeEvent(QResizeEvent* e)
 {
     QStackedWidget::resizeEvent(e);
-    for (int i = 0; i < count(); ++i) {
-        if (i == currentIndex()) {
+    for (int i = 0; i < count(); ++i)
+    {
+        if (i == currentIndex())
+        {
             continue;
         }
         QEvent* layE = new QEvent(QEvent::LayoutRequest);

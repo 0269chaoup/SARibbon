@@ -7,17 +7,19 @@
 /**
  * @brief The SARibbonCustomizeDialogUi class
  */
-class SARibbonCustomizeDialogUi {
-public:
-    SARibbonCustomizeWidget *customWidget;
-    QVBoxLayout *verticalLayoutMain;
-    QHBoxLayout *horizontalLayoutButtonGroup;
-    QPushButton *pushButtonCancel;
-    QPushButton *pushButtonOk;
-    QSpacerItem *spacerItemleft;
-    void setupUi(SARibbonMainWindow *ribbonWindow, QWidget *customizeDialog)
+class SARibbonCustomizeDialogUi
+{
+  public:
+    SARibbonCustomizeWidget* customWidget;
+    QVBoxLayout*             verticalLayoutMain;
+    QHBoxLayout*             horizontalLayoutButtonGroup;
+    QPushButton*             pushButtonCancel;
+    QPushButton*             pushButtonOk;
+    QSpacerItem*             spacerItemleft;
+    void                     setupUi(SARibbonMainWindow* ribbonWindow, QWidget* customizeDialog)
     {
-        if (customizeDialog->objectName().isEmpty()) {
+        if (customizeDialog->objectName().isEmpty())
+        {
             customizeDialog->setObjectName(QStringLiteral("SARibbonCustomizeDialog"));
         }
         customizeDialog->resize(800, 600);
@@ -45,8 +47,7 @@ public:
         retranslateUi(customizeDialog);
     }
 
-
-    void retranslateUi(QWidget *customizeDialog)
+    void retranslateUi(QWidget* customizeDialog)
     {
         customizeDialog->setWindowTitle(QApplication::translate("SARibbonCustomizeDialog", "Customize Dialog", Q_NULLPTR));
         pushButtonCancel->setText(QApplication::translate("SARibbonCustomizeDialog", "Cancel", Q_NULLPTR));
@@ -54,17 +55,14 @@ public:
     }
 };
 
-
 ////////////////////////////////////////////////////////////////////
 
-SARibbonCustomizeDialog::SARibbonCustomizeDialog(SARibbonMainWindow *ribbonWindow, QWidget *p, Qt::WindowFlags f)
-    : QDialog(p, f)
-    , ui(new SARibbonCustomizeDialogUi)
+SARibbonCustomizeDialog::SARibbonCustomizeDialog(SARibbonMainWindow* ribbonWindow, QWidget* p, Qt::WindowFlags f)
+    : QDialog(p, f), ui(new SARibbonCustomizeDialogUi)
 {
     ui->setupUi(ribbonWindow, this);
     initConnection();
 }
-
 
 /**
  * @brief 设置action管理器
@@ -72,18 +70,16 @@ SARibbonCustomizeDialog::SARibbonCustomizeDialog(SARibbonMainWindow *ribbonWindo
  * 等同@ref SARibbonCustomizeWidget::setupActionsManager
  * @param mgr
  */
-void SARibbonCustomizeDialog::setupActionsManager(SARibbonActionsManager *mgr)
+void SARibbonCustomizeDialog::setupActionsManager(SARibbonActionsManager* mgr)
 {
     ui->customWidget->setupActionsManager(mgr);
 }
-
 
 void SARibbonCustomizeDialog::initConnection()
 {
     connect(ui->pushButtonOk, &QPushButton::clicked, this, &QDialog::accept);
     connect(ui->pushButtonCancel, &QPushButton::clicked, this, &QDialog::reject);
 }
-
 
 /**
  * @brief 等同SARibbonCustomizeWidget::applys
@@ -96,7 +92,6 @@ bool SARibbonCustomizeDialog::applys()
     return (ui->customWidget->applys());
 }
 
-
 /**
  * @brief 清除所有动作
  *
@@ -107,7 +102,6 @@ void SARibbonCustomizeDialog::clear()
     ui->customWidget->clear();
 }
 
-
 /**
  * @brief 转换为xml
  *
@@ -115,11 +109,10 @@ void SARibbonCustomizeDialog::clear()
  * @param xml
  * @return
  */
-bool SARibbonCustomizeDialog::toXml(QXmlStreamWriter *xml) const
+bool SARibbonCustomizeDialog::toXml(QXmlStreamWriter* xml) const
 {
     return (ui->customWidget->toXml(xml));
 }
-
 
 /**
  * @brief 等同SARibbonCustomizeWidget::toXml
@@ -132,16 +125,14 @@ bool SARibbonCustomizeDialog::toXml(const QString& xmlpath) const
     return (ui->customWidget->toXml(xmlpath));
 }
 
-
 /**
  * @brief 等同SARibbonCustomizeWidget::fromXml
  * @param xml
  */
-void SARibbonCustomizeDialog::fromXml(QXmlStreamReader *xml)
+void SARibbonCustomizeDialog::fromXml(QXmlStreamReader* xml)
 {
     ui->customWidget->fromXml(xml);
 }
-
 
 /**
  * @brief 等同SARibbonCustomizeWidget::fromXml
@@ -152,7 +143,6 @@ void SARibbonCustomizeDialog::fromXml(const QString& xmlpath)
     ui->customWidget->fromXml(xmlpath);
 }
 
-
 /**
  * @brief 返回SARibbonCustomizeWidget窗口指针
  *
@@ -160,7 +150,7 @@ void SARibbonCustomizeDialog::fromXml(const QString& xmlpath)
  *
  * @return SARibbonCustomizeWidget指针，参考@ref SARibbonCustomizeWidget
  */
-SARibbonCustomizeWidget *SARibbonCustomizeDialog::customizeWidget() const
+SARibbonCustomizeWidget* SARibbonCustomizeDialog::customizeWidget() const
 {
     return (ui->customWidget);
 }

@@ -16,10 +16,10 @@ class QLineEdit;
 class MainWindow : public SARibbonMainWindow
 {
     Q_OBJECT
-public:
+  public:
     MainWindow(QWidget* par = nullptr);
 
-private:
+  private:
     // 创建ribbon-application菜单示例
     void createRibbonApplicationButton();
     // 创建main菜单示例
@@ -35,10 +35,10 @@ private:
     void createQuickAccessBar(SARibbonQuickAccessBar* quickAccessBar);
     void createRightButtonGroup();
     // 创建ActionsManager，实现actions的管理以及SARibbonBar的自定义
-    void createActionsManager();
+    void     createActionsManager();
     QAction* createAction(const QString& text, const QString& iconurl, const QString& objName);
     QAction* createAction(const QString& text, const QString& iconurl);
-private slots:
+  private slots:
     void onMenuButtonPopupCheckableTest(bool b);
     void onInstantPopupCheckableTest(bool b);
     void onDelayedPopupCheckableTest(bool b);
@@ -65,48 +65,48 @@ private slots:
     void onActionHideActionTriggered(bool on);
     // 切换所有action是否可见
     void onActionVisibleAllTriggered(bool on);
-    //居中对齐checkbox的槽
+    // 居中对齐checkbox的槽
     void onCheckBoxAlignmentCenterClicked(bool checked);
 
-private:
+  private:
     // 创建其它actions，这些actions并不在SARibbonBar管理
     void createOtherActions();
 
-protected:
+  protected:
     void closeEvent(QCloseEvent* e) override;
 
-private:
+  private:
     SARibbonContextCategory* mContextCategory;
     SARibbonContextCategory* mContextCategory2;
     SARibbonCustomizeWidget* mWidgetForCustomize;
-    QTextEdit* mTextedit;
-    SARibbonActionsManager* mActionsManager;
-    int mTagForActionText;
-    int mTagForActionIcon;
-    QMenu* mMenuApplicationBtn;
-    QComboBox* mComboboxRibbonTheme;
-    QLineEdit* mSearchEditor { nullptr };
+    QTextEdit*               mTextedit;
+    SARibbonActionsManager*  mActionsManager;
+    int                      mTagForActionText;
+    int                      mTagForActionIcon;
+    QMenu*                   mMenuApplicationBtn;
+    QComboBox*               mComboboxRibbonTheme;
+    QLineEdit*               mSearchEditor{nullptr};
     //
-    QAction* mActionWordWrap { nullptr };
-    QAction* mActionDisable { nullptr };
-    QAction* mActionUnlock { nullptr };
-    QAction* mActionSetTextTest { nullptr };
-    QAction* mActionShowTest { nullptr };
-    QAction* mActionHideAction2 { nullptr };
-    QAction* mActionHideAction4 { nullptr };
-    QAction* mActionHideShowTextAct2 { nullptr };
-    QAction* mActionHideShowTextAct3 { nullptr };
-    QAction* mActionHideShowTextAct4 { nullptr };
+    QAction* mActionWordWrap{nullptr};
+    QAction* mActionDisable{nullptr};
+    QAction* mActionUnlock{nullptr};
+    QAction* mActionSetTextTest{nullptr};
+    QAction* mActionShowTest{nullptr};
+    QAction* mActionHideAction2{nullptr};
+    QAction* mActionHideAction4{nullptr};
+    QAction* mActionHideShowTextAct2{nullptr};
+    QAction* mActionHideShowTextAct3{nullptr};
+    QAction* mActionHideShowTextAct4{nullptr};
     //
-    QAction* mOtherAction1 { nullptr };
-    QAction* mOtherAction2 { nullptr };
-    QAction* mOtherAction3 { nullptr };
-    QAction* mOtherAction4 { nullptr };
-    QAction* mOtherAction5 { nullptr };
-    QAction* mOtherActionIcon1 { nullptr };
-    SARibbonPannel* mPannelVisbileExample { nullptr };
+    QAction*        mOtherAction1{nullptr};
+    QAction*        mOtherAction2{nullptr};
+    QAction*        mOtherAction3{nullptr};
+    QAction*        mOtherAction4{nullptr};
+    QAction*        mOtherAction5{nullptr};
+    QAction*        mOtherActionIcon1{nullptr};
+    SARibbonPannel* mPannelVisbileExample{nullptr};
     //
-    QAction* mActionVisibleAll { nullptr };  ///< 控制所有action是否可见的开关
+    QAction* mActionVisibleAll{nullptr}; ///< 控制所有action是否可见的开关
 };
 
-#endif  // MAINWINDOW_H
+#endif // MAINWINDOW_H

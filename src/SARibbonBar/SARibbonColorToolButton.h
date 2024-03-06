@@ -10,33 +10,33 @@ class SA_RIBBON_EXPORT SARibbonColorToolButton : public SARibbonToolButton
 {
     Q_OBJECT
     SA_RIBBON_DECLARE_PRIVATE(SARibbonColorToolButton)
-public:
+  public:
     /**
      * @brief 颜色样式
      */
     enum ColorStyle
     {
-        ColorUnderIcon,  ///< 颜色在icon下方，这个要求必须设置icon
-        ColorFillToIcon  ///< 颜色作为icon，这个模式下在setColor会自动生成一个颜色icon替换掉原来的icon，因此setIcon函数没有作用
+        ColorUnderIcon, ///< 颜色在icon下方，这个要求必须设置icon
+        ColorFillToIcon ///< 颜色作为icon，这个模式下在setColor会自动生成一个颜色icon替换掉原来的icon，因此setIcon函数没有作用
     };
 
-public:
+  public:
     SARibbonColorToolButton(QWidget* parent = Q_NULLPTR);
     SARibbonColorToolButton(QAction* defaultAction, QWidget* parent = Q_NULLPTR);
     ~SARibbonColorToolButton();
-    //获取颜色
+    // 获取颜色
     QColor getColor() const;
-    //设置颜色显示方案
-    void setColorStyle(ColorStyle s);
+    // 设置颜色显示方案
+    void       setColorStyle(ColorStyle s);
     ColorStyle colorStyle() const;
-    //建立标准的颜色菜单
+    // 建立标准的颜色菜单
     SAColorMenu* setupStandardColorMenu();
-public slots:
-    //设置颜色,会发射colorChanged信号
+  public slots:
+    // 设置颜色,会发射colorChanged信号
     void setColor(const QColor& c);
-private slots:
+  private slots:
     void onButtonClicked(bool checked = false);
-signals:
+  signals:
     /**
      * @brief 颜色被点击的响应
      * @param color
@@ -48,8 +48,8 @@ signals:
      */
     void colorChanged(const QColor& color);
 
-protected:
+  protected:
     void paintIcon(QPainter& p, const QStyleOptionToolButton& opt, const QRect& iconDrawRect);
 };
 
-#endif  // SARIBBONCOLORTOOLBUTTON_H
+#endif // SARIBBONCOLORTOOLBUTTON_H

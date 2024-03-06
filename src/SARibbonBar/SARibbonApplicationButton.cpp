@@ -1,7 +1,8 @@
 ﻿#include "SARibbonApplicationButton.h"
 
 #define SARIBBON_APPLICATION_BUTTON_MINIMUM_WIDTH 40
-SARibbonApplicationButton::SARibbonApplicationButton(QWidget* parent) : QToolButton(parent)
+SARibbonApplicationButton::SARibbonApplicationButton(QWidget* parent)
+    : QToolButton(parent)
 {
     setFocusPolicy(Qt::NoFocus);
     setAutoRaise(true);
@@ -10,7 +11,8 @@ SARibbonApplicationButton::SARibbonApplicationButton(QWidget* parent) : QToolBut
     setMinimumWidth(SARIBBON_APPLICATION_BUTTON_MINIMUM_WIDTH);
 }
 
-SARibbonApplicationButton::SARibbonApplicationButton(const QString& text, QWidget* parent) : QToolButton(parent)
+SARibbonApplicationButton::SARibbonApplicationButton(const QString& text, QWidget* parent)
+    : QToolButton(parent)
 {
     setFocusPolicy(Qt::NoFocus);
     setAutoRaise(true);

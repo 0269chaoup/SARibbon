@@ -11,7 +11,7 @@ class SA_RIBBON_EXPORT SAWindowButtonGroup : public QWidget
 {
     Q_OBJECT
     SA_RIBBON_DECLARE_PRIVATE(SAWindowButtonGroup)
-public:
+  public:
     SAWindowButtonGroup(QWidget* parent);
     SAWindowButtonGroup(QWidget* parent, Qt::WindowFlags flags);
     ~SAWindowButtonGroup();
@@ -20,8 +20,7 @@ public:
     void setupCloseButton(bool on);
     void updateWindowFlag();
     void updateWindowFlag(Qt::WindowFlags flags);
-    //@zzc 新增设置翻译map
-	void setTranslaionText(std::map< QString, QString > translationText);
+    void setTranslaionText(std::map<QString, QString> translationText);
     // 设置按钮的宽度比例,最终按钮宽度将按照此比例进行设置
     void setButtonWidthStretch(int close = 4, int max = 3, int min = 3);
 
@@ -36,12 +35,12 @@ public:
 
     virtual QSize sizeHint() const Q_DECL_OVERRIDE;
 
-protected:
+  protected:
     virtual bool eventFilter(QObject* watched, QEvent* e) Q_DECL_OVERRIDE;
     virtual void parentResize();
     virtual void resizeEvent(QResizeEvent* e) Q_DECL_OVERRIDE;
 
-protected slots:
+  protected slots:
     Q_SLOT void closeWindow();
     Q_SLOT void minimizeWindow();
     Q_SLOT void maximizeWindow();
@@ -53,7 +52,7 @@ protected slots:
 class SAWindowToolButton : public QPushButton
 {
     Q_OBJECT
-public:
+  public:
     SAWindowToolButton(QWidget* p = nullptr);
 };
-#endif  // SAWINDOWBUTTONGROUP_H
+#endif // SAWINDOWBUTTONGROUP_H

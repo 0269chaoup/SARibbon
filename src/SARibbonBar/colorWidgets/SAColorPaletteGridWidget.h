@@ -11,29 +11,29 @@ class SA_COLOR_WIDGETS_API SAColorPaletteGridWidget : public QWidget
 {
     Q_OBJECT
     SA_COLOR_WIDGETS_DECLARE_PRIVATE(SAColorPaletteGridWidget)
-public:
+  public:
     SAColorPaletteGridWidget(QWidget* par = nullptr);
-    SAColorPaletteGridWidget(const QList< QColor >& cls, QWidget* par = nullptr);
+    SAColorPaletteGridWidget(const QList<QColor>& cls, QWidget* par = nullptr);
     ~SAColorPaletteGridWidget();
-    //设置窗口维护的colorList
-    void setColorList(const QList< QColor >& cls);
-    QList< QColor > getColorList() const;
-    //设置颜色深浅比例factor，默认为{ 180, 160, 140, 75, 50 }
-    void setFactor(const QList< int >& factor);
-    QList< int > getFactor() const;
-    //设置iconsize
-    void setColorIconSize(const QSize& s);
+    // 设置窗口维护的colorList
+    void          setColorList(const QList<QColor>& cls);
+    QList<QColor> getColorList() const;
+    // 设置颜色深浅比例factor，默认为{ 180, 160, 140, 75, 50 }
+    void       setFactor(const QList<int>& factor);
+    QList<int> getFactor() const;
+    // 设置iconsize
+    void  setColorIconSize(const QSize& s);
     QSize getColorIconSize() const;
-    //设置颜色是否是checkable
+    // 设置颜色是否是checkable
     void setColorCheckable(bool on = true);
     bool isColorCheckable() const;
-private slots:
+  private slots:
     void onMainColorClicked(const QColor& c);
     void onPaletteColorClicked(const QColor& c);
 
-private:
+  private:
     void init();
-signals:
+  signals:
     /**
      * @brief 对于check模式，check的颜色触发的信号
      * @param c
@@ -42,4 +42,4 @@ signals:
     void colorClicked(const QColor& c);
 };
 
-#endif  // SACOLORPALETTEGRIDWIDGET_H
+#endif // SACOLORPALETTEGRIDWIDGET_H

@@ -9,14 +9,15 @@
 class SARibbonQuickAccessBar::PrivateData
 {
     SA_RIBBON_DECLARE_PUBLIC(SARibbonQuickAccessBar)
-public:
+  public:
     PrivateData(SARibbonQuickAccessBar* p);
 
-public:
-    SARibbonButtonGroupWidget* groupWidget { nullptr };
+  public:
+    SARibbonButtonGroupWidget* groupWidget{nullptr};
 };
 
-SARibbonQuickAccessBar::PrivateData::PrivateData(SARibbonQuickAccessBar* p) : q_ptr(p)
+SARibbonQuickAccessBar::PrivateData::PrivateData(SARibbonQuickAccessBar* p)
+    : q_ptr(p)
 {
 }
 
@@ -42,7 +43,7 @@ void SARibbonQuickAccessBar::addSeparator()
 
 void SARibbonQuickAccessBar::addAction(QAction* act, Qt::ToolButtonStyle buttonStyle, QToolButton::ToolButtonPopupMode popMode)
 {
-	d_ptr->groupWidget->addAction(act, buttonStyle, popMode);
+    d_ptr->groupWidget->addAction(act, buttonStyle, popMode);
 }
 
 void SARibbonQuickAccessBar::addWidget(QWidget* w)
@@ -52,9 +53,8 @@ void SARibbonQuickAccessBar::addWidget(QWidget* w)
 
 void SARibbonQuickAccessBar::addMenu(QMenu* m, Qt::ToolButtonStyle buttonStyle, QToolButton::ToolButtonPopupMode popMode)
 {
-	d_ptr->groupWidget->addMenu(m, buttonStyle, popMode);
+    d_ptr->groupWidget->addMenu(m, buttonStyle, popMode);
 }
-
 
 /**
  * @brief 获取内部管理的ButtonGroupWidget

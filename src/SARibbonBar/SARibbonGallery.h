@@ -33,27 +33,27 @@ class SA_RIBBON_EXPORT SARibbonGallery : public QFrame
 {
     Q_OBJECT
     SA_RIBBON_DECLARE_PRIVATE(SARibbonGallery)
-public:
+  public:
     SARibbonGallery(QWidget* parent = 0);
     virtual ~SARibbonGallery();
     virtual QSize sizeHint() const Q_DECL_OVERRIDE;
-    //添加一个GalleryGroup
+    // 添加一个GalleryGroup
     SARibbonGalleryGroup* addGalleryGroup();
-    //添加一个GalleryGroup
+    // 添加一个GalleryGroup
     void addGalleryGroup(SARibbonGalleryGroup* group);
-    //快速添加一组actions
-    SARibbonGalleryGroup* addCategoryActions(const QString& title, QList< QAction* > actions);
-    //设置当前显示的SARibbonGalleryGroup
+    // 快速添加一组actions
+    SARibbonGalleryGroup* addCategoryActions(const QString& title, QList<QAction*> actions);
+    // 设置当前显示的SARibbonGalleryGroup
     void setCurrentViewGroup(SARibbonGalleryGroup* group);
-    //获取当前显示的SARibbonGalleryGroup
+    // 获取当前显示的SARibbonGalleryGroup
     SARibbonGalleryGroup* currentViewGroup() const;
-    //获取弹出窗口指针
+    // 获取弹出窗口指针
     SARibbonGalleryViewport* getPopupViewPort() const;
 
-public:
-    //设置最右边三个控制按钮的最大宽度（默认15）
+  public:
+    // 设置最右边三个控制按钮的最大宽度（默认15）
     static void setGalleryButtonMaximumWidth(int w);
-signals:
+  signals:
     /**
      * @brief 转发管理的SARibbonGalleryGroup::triggered
      * 所有加入SARibbonGallery的action都会被一个QActionGroup管理,可以通过@sa getActionGroup 获取到对应的actiongroup
@@ -67,21 +67,21 @@ signals:
      */
     void hovered(QAction* action);
 
-public slots:
-    //上翻页
+  public slots:
+    // 上翻页
     virtual void pageUp();
-    //下翻页
+    // 下翻页
     virtual void pageDown();
-    //显示更多触发，默认弹出内部管理的SARibbonGalleryViewport，用户可重载此函数实现自定义的弹出
+    // 显示更多触发，默认弹出内部管理的SARibbonGalleryViewport，用户可重载此函数实现自定义的弹出
     virtual void showMoreDetail();
-protected slots:
-    void onItemClicked(const QModelIndex& index);
+  protected slots:
+    void         onItemClicked(const QModelIndex& index);
     virtual void onTriggered(QAction* action);
 
-private:
+  private:
     SARibbonGalleryViewport* ensureGetPopupViewPort();
 
-protected:
+  protected:
     void resizeEvent(QResizeEvent* event) Q_DECL_OVERRIDE;
     void paintEvent(QPaintEvent* event) Q_DECL_OVERRIDE;
 };
@@ -92,22 +92,22 @@ protected:
 class SARibbonGalleryViewport : public QWidget
 {
     Q_OBJECT
-public:
+  public:
     SARibbonGalleryViewport(QWidget* parent);
-    //添加窗口不带标题
+    // 添加窗口不带标题
     void addWidget(QWidget* w);
-    //添加窗口，带标题
+    // 添加窗口，带标题
     void addWidget(QWidget* w, const QString& title);
-    //通过SARibbonGalleryGroup获取对应的标题，用户可以通过此函数设置QLabel的属性
+    // 通过SARibbonGalleryGroup获取对应的标题，用户可以通过此函数设置QLabel的属性
     QLabel* getWidgetTitleLabel(QWidget* w);
-    //移除窗口
+    // 移除窗口
     void removeWidget(QWidget* w);
-public slots:
+  public slots:
     void widgetTitleChanged(QWidget* w, const QString& title);
 
-private:
-    QVBoxLayout* m_layout;
-    QMap< QWidget*, QLabel* > _widgetToTitleLable;  ///< QWidget和lable的对应
+  private:
+    QVBoxLayout*            m_layout;
+    QMap<QWidget*, QLabel*> _widgetToTitleLable; ///< QWidget和lable的对应
 };
 
-#endif  // SARIBBONGALLERY_H
+#endif // SARIBBONGALLERY_H

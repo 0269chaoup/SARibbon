@@ -26,17 +26,17 @@
  */
 #ifndef SA_COLOR_WIDGETS_DECLARE_PRIVATE
 #define SA_COLOR_WIDGETS_DECLARE_PRIVATE(classname)                                                                    \
-    class PrivateData;                                                                                                 \
-    friend class classname::PrivateData;                                                                               \
-    QScopedPointer< PrivateData > d_ptr;
+	class PrivateData;                                                                                                 \
+	friend class classname::PrivateData;                                                                               \
+	QScopedPointer< PrivateData > d_ptr;
 #endif
 /**
  * @def   模仿Q_DECLARE_PUBLIC
  */
 #ifndef SA_COLOR_WIDGETS_DECLARE_PUBLIC
 #define SA_COLOR_WIDGETS_DECLARE_PUBLIC(classname)                                                                     \
-    friend class classname;                                                                                            \
-    classname* q_ptr { nullptr };
+	friend class classname;                                                                                            \
+	classname* q_ptr { nullptr };
 #endif
 
 #ifndef SA_COLOR_WIDGETS_NO_DLL

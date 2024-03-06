@@ -3,30 +3,23 @@
 #include <QPainter>
 #include <QDebug>
 
-SARibbonSeparatorWidget::SARibbonSeparatorWidget(int height, QWidget *parent)
-    : QWidget(parent)
-    , m_topMargins(4)
-    , m_bottomMargins(4)
+SARibbonSeparatorWidget::SARibbonSeparatorWidget(int height, QWidget* parent)
+    : QWidget(parent), m_topMargins(4), m_bottomMargins(4)
 {
     setFixedSize(6, height);
 }
 
-
-SARibbonSeparatorWidget::SARibbonSeparatorWidget(QWidget *parent)
-    : QWidget(parent)
-    , m_topMargins(4)
-    , m_bottomMargins(4)
+SARibbonSeparatorWidget::SARibbonSeparatorWidget(QWidget* parent)
+    : QWidget(parent), m_topMargins(4), m_bottomMargins(4)
 {
     setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Expanding);
     setFixedWidth(6);
 }
 
-
 QSize SARibbonSeparatorWidget::sizeHint() const
 {
     return (QSize(6, height()));
 }
-
 
 /**
  * @brief 设置分割线的上下距离
@@ -35,12 +28,11 @@ QSize SARibbonSeparatorWidget::sizeHint() const
  */
 void SARibbonSeparatorWidget::setTopBottomMargins(int top, int bottom)
 {
-    m_topMargins = top;
+    m_topMargins    = top;
     m_bottomMargins = bottom;
 }
 
-
-void SARibbonSeparatorWidget::paintEvent(QPaintEvent *event)
+void SARibbonSeparatorWidget::paintEvent(QPaintEvent* event)
 {
     Q_UNUSED(event);
     QPainter painter(this);

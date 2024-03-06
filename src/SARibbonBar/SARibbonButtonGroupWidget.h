@@ -10,46 +10,44 @@ class SARibbonControlButton;
  */
 class SA_RIBBON_EXPORT SARibbonButtonGroupWidget : public QFrame
 {
-	Q_OBJECT
-	SA_RIBBON_DECLARE_PRIVATE(SARibbonButtonGroupWidget)
-	using ButtonTyle = SARibbonControlButton;
+    Q_OBJECT
+    SA_RIBBON_DECLARE_PRIVATE(SARibbonButtonGroupWidget)
+    using ButtonTyle = SARibbonControlButton;
 
-public:
-	SARibbonButtonGroupWidget(QWidget* parent = Q_NULLPTR);
-	~SARibbonButtonGroupWidget() Q_DECL_OVERRIDE;
+  public:
+    SARibbonButtonGroupWidget(QWidget* parent = Q_NULLPTR);
+    ~SARibbonButtonGroupWidget() Q_DECL_OVERRIDE;
 
-	// 生成并添加一个action
-	QAction* addAction(QAction* a,
-	                   Qt::ToolButtonStyle buttonStyle          = Qt::ToolButtonIconOnly,
-	                   QToolButton::ToolButtonPopupMode popMode = QToolButton::DelayedPopup);
-	QAction* addAction(const QString& text,
-	                   const QIcon& icon,
-	                   Qt::ToolButtonStyle buttonStyle          = Qt::ToolButtonIconOnly,
-	                   QToolButton::ToolButtonPopupMode popMode = QToolButton::DelayedPopup);
-	QAction* addMenu(QMenu* menu,
-	                 Qt::ToolButtonStyle buttonStyle          = Qt::ToolButtonIconOnly,
-	                 QToolButton::ToolButtonPopupMode popMode = QToolButton::InstantPopup);
-	QAction* addSeparator();
-	QAction* addWidget(QWidget* w);
-	QSize sizeHint() const Q_DECL_OVERRIDE;
-	QSize minimumSizeHint() const Q_DECL_OVERRIDE;
-	// 设置icon尺寸
-	void setIconSize(const QSize& s);
-	QSize iconSize() const;
-	// @zzc 合并主线这部分代码 ，这部分代码原本就是自己新增的，
-	/*QAction* addAction(QAction* a, Qt::ToolButtonStyle buttonStyle);*/
-	QWidget* findAction(QAction* action);
+    // 生成并添加一个action
+    QAction* addAction(QAction*                         a,
+                       Qt::ToolButtonStyle              buttonStyle = Qt::ToolButtonIconOnly,
+                       QToolButton::ToolButtonPopupMode popMode     = QToolButton::DelayedPopup);
+    QAction* addAction(const QString&                   text,
+                       const QIcon&                     icon,
+                       Qt::ToolButtonStyle              buttonStyle = Qt::ToolButtonIconOnly,
+                       QToolButton::ToolButtonPopupMode popMode     = QToolButton::DelayedPopup);
+    QAction* addMenu(QMenu*                           menu,
+                     Qt::ToolButtonStyle              buttonStyle = Qt::ToolButtonIconOnly,
+                     QToolButton::ToolButtonPopupMode popMode     = QToolButton::InstantPopup);
+    QAction* addSeparator();
+    QAction* addWidget(QWidget* w);
+    QSize    sizeHint() const Q_DECL_OVERRIDE;
+    QSize    minimumSizeHint() const Q_DECL_OVERRIDE;
+    // 设置icon尺寸
+    void     setIconSize(const QSize& s);
+    QSize    iconSize() const;
+    QWidget* findAction(QAction* action);
 
-signals:
+  signals:
 
-	/**
-	 * @brief 参考QToolBar::actionTriggered的信号
-	 * @param action
-	 */
-	void actionTriggered(QAction* action);
+    /**
+     * @brief 参考QToolBar::actionTriggered的信号
+     * @param action
+     */
+    void actionTriggered(QAction* action);
 
-protected:
-	virtual void actionEvent(QActionEvent* e) Q_DECL_OVERRIDE;
+  protected:
+    virtual void actionEvent(QActionEvent* e) Q_DECL_OVERRIDE;
 };
 
-#endif  // SARIBBONBUTTONGROUPWIDGET_H
+#endif // SARIBBONBUTTONGROUPWIDGET_H

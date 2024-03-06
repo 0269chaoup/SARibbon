@@ -13,24 +13,23 @@ class SA_RIBBON_EXPORT SARibbonQuickAccessBar : public SARibbonCtrlContainer
 {
     Q_OBJECT
     SA_RIBBON_DECLARE_PRIVATE(SARibbonQuickAccessBar)
-public:
+  public:
     SARibbonQuickAccessBar(QWidget* parent = 0);
     ~SARibbonQuickAccessBar();
-	void addSeparator();
-    // @zzc 同步SARibbonGroupButtonWidget 接口更改
-	void addAction(QAction* act,
-	               Qt::ToolButtonStyle buttonStyle          = Qt::ToolButtonIconOnly,
-	               QToolButton::ToolButtonPopupMode popMode = QToolButton::DelayedPopup);
-	void addWidget(QWidget* w);
-	void addMenu(QMenu* m,
-	             Qt::ToolButtonStyle buttonStyle          = Qt::ToolButtonIconOnly,
-	             QToolButton::ToolButtonPopupMode popMode = QToolButton::InstantPopup);
-    //获取内部管理的ButtonGroupWidget
-    SARibbonButtonGroupWidget* buttonGroupWidget();
+    void addSeparator();
+    void addAction(QAction*                         act,
+                   Qt::ToolButtonStyle              buttonStyle = Qt::ToolButtonIconOnly,
+                   QToolButton::ToolButtonPopupMode popMode     = QToolButton::DelayedPopup);
+    void addWidget(QWidget* w);
+    void addMenu(QMenu*                           m,
+                 Qt::ToolButtonStyle              buttonStyle = Qt::ToolButtonIconOnly,
+                 QToolButton::ToolButtonPopupMode popMode     = QToolButton::InstantPopup);
+    // 获取内部管理的ButtonGroupWidget
+    SARibbonButtonGroupWidget*       buttonGroupWidget();
     const SARibbonButtonGroupWidget* buttonGroupWidget() const;
     // icon 尺寸设置 - 注意，如果要自定义iconsize，需要设置
-    void setIconSize(const QSize& s);
+    void  setIconSize(const QSize& s);
     QSize iconSize() const;
 };
 
-#endif  // SARIBBONQUICKACCESSBAR_H
+#endif // SARIBBONQUICKACCESSBAR_H

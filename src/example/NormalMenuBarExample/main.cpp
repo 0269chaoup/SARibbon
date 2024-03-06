@@ -3,7 +3,7 @@
 #include <QElapsedTimer>
 #include <QDebug>
 
-//重定向qdebug的打印
+// 重定向qdebug的打印
 void log_out_put(QtMsgType type, const QMessageLogContext& context, const QString& msg);
 
 /**
@@ -16,7 +16,8 @@ void log_out_put(QtMsgType type, const QMessageLogContext& context, const QStrin
 {
     QByteArray localMsg = msg.toLocal8Bit();
 
-    switch (type) {
+    switch (type)
+    {
     case QtDebugMsg:
         fprintf(stdout, "[Debug] %s (%s:%u, %s)\n", localMsg.constData(), context.file, context.line, context.function);
         break;

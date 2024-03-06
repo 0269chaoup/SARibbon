@@ -13,12 +13,12 @@ class MainWindow : public SARibbonMainWindow
 {
     Q_OBJECT
 
-public:
+  public:
     explicit MainWindow(QWidget* parent = nullptr);
     ~MainWindow();
 
-private:
+  private:
     Ui::MainWindow* ui;
 };
 
-#endif  // MAINWINDOW_H
+#endif // MAINWINDOW_H

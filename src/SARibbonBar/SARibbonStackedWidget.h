@@ -12,7 +12,7 @@ class SA_RIBBON_EXPORT SARibbonStackedWidget : public QStackedWidget
 {
     Q_OBJECT
     SA_RIBBON_DECLARE_PRIVATE(SARibbonStackedWidget)
-public:
+  public:
     SARibbonStackedWidget(QWidget* parent);
     ~SARibbonStackedWidget();
     void setPopupMode();
@@ -28,15 +28,15 @@ public:
     // 移动窗口
     void moveWidget(int from, int to);
 
-protected:
+  protected:
     //    void mouseReleaseEvent(QMouseEvent *e);
-    void hideEvent(QHideEvent* e) Q_DECL_OVERRIDE;
+    void         hideEvent(QHideEvent* e) Q_DECL_OVERRIDE;
     virtual void resizeEvent(QResizeEvent* e) Q_DECL_OVERRIDE;
-signals:
+  signals:
     /**
      * @brief hidWindow
      */
     void hidWindow();
 };
 
-#endif  // SARIBBONSTACKEDWIDGET_H
+#endif // SARIBBONSTACKEDWIDGET_H

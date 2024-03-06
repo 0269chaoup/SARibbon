@@ -7,31 +7,32 @@
 class SAColorGridWidget::PrivateData
 {
     SA_COLOR_WIDGETS_DECLARE_PUBLIC(SAColorGridWidget)
-public:
+  public:
     PrivateData(SAColorGridWidget* p);
-    //获取ColorToolButton
+    // 获取ColorToolButton
     SAColorToolButton* getColorToolButtonAt(int index);
     SAColorToolButton* getColorToolButtonAt(int r, int c);
     SAColorToolButton* getCheckedButton() const;
-    void updateGridColor(bool isRemoveSpacer = false);
-    void updateGridColorSize();
-    void updateGridColorCheckable();
-    void iterationColorBtns(SAColorGridWidget::FunColorBtn fn);
-    void removeAt(int r, int c);
-    void setColorAt(const QColor& clr, int r, int c);
-    bool isSpacer(int r, int c) const;
+    void               updateGridColor(bool isRemoveSpacer = false);
+    void               updateGridColorSize();
+    void               updateGridColorCheckable();
+    void               iterationColorBtns(SAColorGridWidget::FunColorBtn fn);
+    void               removeAt(int r, int c);
+    void               setColorAt(const QColor& clr, int r, int c);
+    bool               isSpacer(int r, int c) const;
 
-public:
-    QList< QColor > mColors;
-    QGridLayout* mGridLayout { nullptr };
-    QButtonGroup* mButtonGroup { nullptr };
-    QSize mIconSize { 16, 16 };
-    int mColumnCount { 8 };  ///< 列数，行数量会根据列数量来匹配,如果设置-1或者0，说明不限定列数量，这样会只有一行
-    bool mColorCheckable;    ///<设置颜色是否是checkable
-    bool mHorizontalSpacerToRight { false };  ///< 最右边是否有弹簧
+  public:
+    QList<QColor> mColors;
+    QGridLayout*  mGridLayout{nullptr};
+    QButtonGroup* mButtonGroup{nullptr};
+    QSize         mIconSize{16, 16};
+    int           mColumnCount{8};                 ///< 列数，行数量会根据列数量来匹配,如果设置-1或者0，说明不限定列数量，这样会只有一行
+    bool          mColorCheckable;                 ///< 设置颜色是否是checkable
+    bool          mHorizontalSpacerToRight{false}; ///< 最右边是否有弹簧
 };
 
-SAColorGridWidget::PrivateData::PrivateData(SAColorGridWidget* p) : q_ptr(p)
+SAColorGridWidget::PrivateData::PrivateData(SAColorGridWidget* p)
+    : q_ptr(p)
 {
     mGridLayout = new QGridLayout(p);
     p->setLayout(mGridLayout);
@@ -46,24 +47,26 @@ SAColorGridWidget::PrivateData::PrivateData(SAColorGridWidget* p) : q_ptr(p)
 SAColorToolButton* SAColorGridWidget::PrivateData::getColorToolButtonAt(int index)
 {
     QLayoutItem* item = mGridLayout->itemAt(index);
-    if (nullptr == item) {
+    if (nullptr == item)
+    {
         return nullptr;
     }
-    return qobject_cast< SAColorToolButton* >(item->widget());
+    return qobject_cast<SAColorToolButton*>(item->widget());
 }
 
 SAColorToolButton* SAColorGridWidget::PrivateData::getColorToolButtonAt(int r, int c)
 {
     QLayoutItem* item = mGridLayout->itemAtPosition(r, c);
-    if (nullptr == item) {
+    if (nullptr == item)
+    {
         return nullptr;
     }
-    return qobject_cast< SAColorToolButton* >(item->widget());
+    return qobject_cast<SAColorToolButton*>(item->widget());
 }
 
 SAColorToolButton* SAColorGridWidget::PrivateData::getCheckedButton() const
 {
-    return qobject_cast< SAColorToolButton* >(mButtonGroup->checkedButton());
+    return qobject_cast<SAColorToolButton*>(mButtonGroup->checkedButton());
 }
 
 /**
@@ -73,41 +76,59 @@ void SAColorGridWidget::PrivateData::updateGridColor(bool isRemoveSpacer)
 {
     int row = 1;
     int col = mColumnCount;
-    if (col <= 0) {
+    if (col <= 0)
+    {
         col = mColors.size();
-    } else {
+    }
+    else
+    {
         row = std::ceil(mColors.size() / (float)col);
     }
     int index = 0;
-    for (int r = 0; r < row; ++r) {
-        for (int c = 0; c < col; ++c) {
-            if (index < mColors.size()) {
-                setColorAt(mColors[ index ], r, c);
+    for (int r = 0; r < row; ++r)
+    {
+        for (int c = 0; c < col; ++c)
+        {
+            if (index < mColors.size())
+            {
+                setColorAt(mColors[index], r, c);
                 ++index;
-            } else {
+            }
+            else
+            {
                 removeAt(r, c);
             }
         }
     }
-    //清除多余单元格
+    // 清除多余单元格
     int nowGridRow = mGridLayout->rowCount();
     int nowGridCol = mGridLayout->columnCount();
-    if (nowGridRow > row) {
-        //多余的清除
-        for (int r = row; r < nowGridRow; ++r) {
-            for (int c = 0; c < nowGridCol; ++c) {
+    if (nowGridRow > row)
+    {
+        // 多余的清除
+        for (int r = row; r < nowGridRow; ++r)
+        {
+            for (int c = 0; c < nowGridCol; ++c)
+            {
                 removeAt(r, c);
             }
         }
     }
-    if (nowGridCol > col) {
-        //多余的列清除
-        for (int r = 0; r < row; ++r) {
-            for (int c = col; c < nowGridCol; ++c) {
-                if (isRemoveSpacer) {
+    if (nowGridCol > col)
+    {
+        // 多余的列清除
+        for (int r = 0; r < row; ++r)
+        {
+            for (int c = col; c < nowGridCol; ++c)
+            {
+                if (isRemoveSpacer)
+                {
                     removeAt(r, c);
-                } else {
-                    if (!isSpacer(r, c)) {
+                }
+                else
+                {
+                    if (!isSpacer(r, c))
+                    {
                         removeAt(r, c);
                     }
                 }
@@ -122,8 +143,9 @@ void SAColorGridWidget::PrivateData::updateGridColor(bool isRemoveSpacer)
 void SAColorGridWidget::PrivateData::updateGridColorSize()
 {
     QSize s = mIconSize;
-    iterationColorBtns([ s ](SAColorToolButton* btn) {
-        if (btn) {
+    iterationColorBtns([s](SAColorToolButton* btn) {
+        if (btn)
+        {
             btn->setIconSize(s);
         }
     });
@@ -132,8 +154,9 @@ void SAColorGridWidget::PrivateData::updateGridColorSize()
 void SAColorGridWidget::PrivateData::updateGridColorCheckable()
 {
     bool v = mColorCheckable;
-    iterationColorBtns([ v ](SAColorToolButton* btn) {
-        if (btn) {
+    iterationColorBtns([v](SAColorToolButton* btn) {
+        if (btn)
+        {
             btn->setCheckable(v);
         }
     });
@@ -146,7 +169,8 @@ void SAColorGridWidget::PrivateData::updateGridColorCheckable()
 void SAColorGridWidget::PrivateData::iterationColorBtns(FunColorBtn fn)
 {
     int cnt = mGridLayout->count();
-    for (int i = 0; i < cnt; ++i) {
+    for (int i = 0; i < cnt; ++i)
+    {
         SAColorToolButton* tl = getColorToolButtonAt(i);
         fn(tl);
     }
@@ -160,11 +184,13 @@ void SAColorGridWidget::PrivateData::iterationColorBtns(FunColorBtn fn)
 void SAColorGridWidget::PrivateData::removeAt(int r, int c)
 {
     QLayoutItem* item = mGridLayout->itemAtPosition(r, c);
-    if (item) {
+    if (item)
+    {
         QWidget* w = item->widget();
         mGridLayout->removeItem(item);
         delete item;
-        if (w) {
+        if (w)
+        {
             w->deleteLater();
         }
     }
@@ -173,12 +199,16 @@ void SAColorGridWidget::PrivateData::removeAt(int r, int c)
 void SAColorGridWidget::PrivateData::setColorAt(const QColor& clr, int r, int c)
 {
     QLayoutItem* item = mGridLayout->itemAtPosition(r, c);
-    if (item) {
-        SAColorToolButton* tl = qobject_cast< SAColorToolButton* >(item->widget());
-        if (tl) {
+    if (item)
+    {
+        SAColorToolButton* tl = qobject_cast<SAColorToolButton*>(item->widget());
+        if (tl)
+        {
             tl->setColor(clr);
         }
-    } else {
+    }
+    else
+    {
         SAColorToolButton* tl = new SAColorToolButton(q_ptr);
         tl->setToolButtonStyle(Qt::ToolButtonIconOnly);
         tl->setIconSize(mIconSize);
@@ -194,8 +224,10 @@ void SAColorGridWidget::PrivateData::setColorAt(const QColor& clr, int r, int c)
 bool SAColorGridWidget::PrivateData::isSpacer(int r, int c) const
 {
     QLayoutItem* item = mGridLayout->itemAtPosition(r, c);
-    if (item) {
-        if (QSpacerItem* si = dynamic_cast< QSpacerItem* >(item)) {
+    if (item)
+    {
+        if (QSpacerItem* si = dynamic_cast<QSpacerItem*>(item))
+        {
             return true;
         }
     }
@@ -206,12 +238,13 @@ bool SAColorGridWidget::PrivateData::isSpacer(int r, int c) const
 // SAColorGridWidget
 //==============================================================
 
-SAColorGridWidget::SAColorGridWidget(QWidget* par) : QWidget(par), d_ptr(new SAColorGridWidget::PrivateData(this))
+SAColorGridWidget::SAColorGridWidget(QWidget* par)
+    : QWidget(par), d_ptr(new SAColorGridWidget::PrivateData(this))
 {
-    connect(d_ptr->mButtonGroup, QOverload< QAbstractButton* >::of(&QButtonGroup::buttonClicked), this, &SAColorGridWidget::onButtonClicked);
-    connect(d_ptr->mButtonGroup, QOverload< QAbstractButton* >::of(&QButtonGroup::buttonPressed), this, &SAColorGridWidget::onButtonPressed);
-    connect(d_ptr->mButtonGroup, QOverload< QAbstractButton* >::of(&QButtonGroup::buttonReleased), this, &SAColorGridWidget::onButtonReleased);
-    connect(d_ptr->mButtonGroup, QOverload< QAbstractButton*, bool >::of(&QButtonGroup::buttonToggled), this, &SAColorGridWidget::onButtonToggled);
+    connect(d_ptr->mButtonGroup, QOverload<QAbstractButton*>::of(&QButtonGroup::buttonClicked), this, &SAColorGridWidget::onButtonClicked);
+    connect(d_ptr->mButtonGroup, QOverload<QAbstractButton*>::of(&QButtonGroup::buttonPressed), this, &SAColorGridWidget::onButtonPressed);
+    connect(d_ptr->mButtonGroup, QOverload<QAbstractButton*>::of(&QButtonGroup::buttonReleased), this, &SAColorGridWidget::onButtonReleased);
+    connect(d_ptr->mButtonGroup, QOverload<QAbstractButton*, bool>::of(&QButtonGroup::buttonToggled), this, &SAColorGridWidget::onButtonToggled);
 }
 
 SAColorGridWidget::~SAColorGridWidget()
@@ -226,7 +259,8 @@ void SAColorGridWidget::setColumnCount(int c)
 {
     d_ptr->mColumnCount = c;
     d_ptr->updateGridColor(true);
-    if (d_ptr->mHorizontalSpacerToRight) {
+    if (d_ptr->mHorizontalSpacerToRight)
+    {
         setHorizontalSpacerToRight();
     }
     updateGeometry();
@@ -236,7 +270,7 @@ void SAColorGridWidget::setColumnCount(int c)
  * @brief 设置颜色列表
  * @param c
  */
-void SAColorGridWidget::setColorList(const QList< QColor >& cls)
+void SAColorGridWidget::setColorList(const QList<QColor>& cls)
 {
     d_ptr->mColors = cls;
     d_ptr->updateGridColor();
@@ -247,7 +281,7 @@ void SAColorGridWidget::setColorList(const QList< QColor >& cls)
  * @brief 获取颜色列表
  * @return
  */
-QList< QColor > SAColorGridWidget::getColorList() const
+QList<QColor> SAColorGridWidget::getColorList() const
 {
     return d_ptr->mColors;
 }
@@ -328,11 +362,13 @@ bool SAColorGridWidget::isColorCheckable() const
 QColor SAColorGridWidget::getCurrentCheckedColor() const
 {
     QAbstractButton* btn = d_ptr->mButtonGroup->checkedButton();
-    if (nullptr == btn) {
+    if (nullptr == btn)
+    {
         return QColor();
     }
-    SAColorToolButton* t = qobject_cast< SAColorToolButton* >(btn);
-    if (nullptr == t) {
+    SAColorToolButton* t = qobject_cast<SAColorToolButton*>(btn);
+    if (nullptr == t)
+    {
         return QColor();
     }
     return t->getColor();
@@ -386,16 +422,21 @@ int SAColorGridWidget::getHorizontalSpacing() const
  */
 void SAColorGridWidget::clearCheckedState()
 {
-    if (d_ptr->mButtonGroup->exclusive()) {
+    if (d_ptr->mButtonGroup->exclusive())
+    {
         SAColorToolButton* btn = d_ptr->getCheckedButton();
-        if (btn) {
+        if (btn)
+        {
             d_ptr->mButtonGroup->setExclusive(false);
             btn->setChecked(false);
             d_ptr->mButtonGroup->setExclusive(true);
         }
-    } else {
+    }
+    else
+    {
         d_ptr->iterationColorBtns([](SAColorToolButton* btn) {
-            if (btn->isChecked()) {
+            if (btn->isChecked())
+            {
                 btn->setChecked(false);
             }
         });
@@ -414,10 +455,13 @@ void SAColorGridWidget::setRowMinimumHeight(int row, int minSize)
 
 void SAColorGridWidget::setHorizontalSpacerToRight(bool on)
 {
-    if (on) {
+    if (on)
+    {
         QSpacerItem* horizontalSpacer = new QSpacerItem(40, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
         d_ptr->mGridLayout->addItem(horizontalSpacer, 0, d_ptr->mColumnCount, 1, 1);
-    } else {
+    }
+    else
+    {
         d_ptr->removeAt(0, d_ptr->mColumnCount);
     }
     d_ptr->mHorizontalSpacerToRight = on;
@@ -425,24 +469,27 @@ void SAColorGridWidget::setHorizontalSpacerToRight(bool on)
 
 void SAColorGridWidget::onButtonClicked(QAbstractButton* btn)
 {
-    SAColorToolButton* t = qobject_cast< SAColorToolButton* >(btn);
-    if (t) {
+    SAColorToolButton* t = qobject_cast<SAColorToolButton*>(btn);
+    if (t)
+    {
         emit colorClicked(t->getColor());
     }
 }
 
 void SAColorGridWidget::onButtonPressed(QAbstractButton* btn)
 {
-    SAColorToolButton* t = qobject_cast< SAColorToolButton* >(btn);
-    if (t) {
+    SAColorToolButton* t = qobject_cast<SAColorToolButton*>(btn);
+    if (t)
+    {
         emit colorPressed(t->getColor());
     }
 }
 
 void SAColorGridWidget::onButtonToggled(QAbstractButton* btn, bool on)
 {
-    SAColorToolButton* t = qobject_cast< SAColorToolButton* >(btn);
-    if (t) {
+    SAColorToolButton* t = qobject_cast<SAColorToolButton*>(btn);
+    if (t)
+    {
         emit colorToggled(t->getColor(), on);
     }
 }
@@ -466,8 +513,9 @@ QSize SAColorGridWidget::sizeHint() const
 
 void SAColorGridWidget::onButtonReleased(QAbstractButton* btn)
 {
-    SAColorToolButton* t = qobject_cast< SAColorToolButton* >(btn);
-    if (t) {
+    SAColorToolButton* t = qobject_cast<SAColorToolButton*>(btn);
+    if (t)
+    {
         emit colorReleased(t->getColor());
     }
 }
@@ -475,18 +523,18 @@ void SAColorGridWidget::onButtonReleased(QAbstractButton* btn)
 namespace SA
 {
 
-QList< QColor > getStandardColorList()
+QList<QColor> getStandardColorList()
 {
-    static QList< QColor > s_standardColorList({ QColor(192, 0, 0),
-                                                 QColor(255, 0, 0),
-                                                 QColor(255, 192, 0),
-                                                 QColor(255, 255, 0),
-                                                 QColor(146, 208, 80),
-                                                 QColor(0, 176, 80),
-                                                 QColor(0, 176, 240),
-                                                 QColor(0, 112, 192),
-                                                 QColor(0, 32, 96),
-                                                 QColor(112, 48, 160) });
+    static QList<QColor> s_standardColorList({QColor(192, 0, 0),
+                                              QColor(255, 0, 0),
+                                              QColor(255, 192, 0),
+                                              QColor(255, 255, 0),
+                                              QColor(146, 208, 80),
+                                              QColor(0, 176, 80),
+                                              QColor(0, 176, 240),
+                                              QColor(0, 112, 192),
+                                              QColor(0, 32, 96),
+                                              QColor(112, 48, 160)});
     return s_standardColorList;
 }
-}
+} // namespace SA

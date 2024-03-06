@@ -9,7 +9,7 @@
  */
 class SAPrivateRibbonCategoryData
 {
-public:
+  public:
     SARibbonCategory* categoryPage;
 };
 
@@ -19,16 +19,17 @@ public:
 class SARibbonContextCategory::PrivateData
 {
     SA_RIBBON_DECLARE_PUBLIC(SARibbonContextCategory)
-public:
+  public:
     PrivateData(SARibbonContextCategory* p);
 
-public:
-    QList< SAPrivateRibbonCategoryData > categoryDataList;
-    QVariant contextID;
-    QColor contextColor;
-    QString contextTitle;
+  public:
+    QList<SAPrivateRibbonCategoryData> categoryDataList;
+    QVariant                           contextID;
+    QColor                             contextColor;
+    QString                            contextTitle;
 };
-SARibbonContextCategory::PrivateData::PrivateData(SARibbonContextCategory* p) : q_ptr(p)
+SARibbonContextCategory::PrivateData::PrivateData(SARibbonContextCategory* p)
+    : q_ptr(p)
 {
 }
 
@@ -62,7 +63,8 @@ SARibbonCategory* SARibbonContextCategory::addCategoryPage(const QString& title)
  */
 void SARibbonContextCategory::addCategoryPage(SARibbonCategory* category)
 {
-    if (isHaveCategory(category)) {
+    if (isHaveCategory(category))
+    {
         // cn:SARibbonContextCategory已经持有标签：%1，将跳过
         qWarning() << tr("SARibbonContextCategory have category %1,will skip").arg(category->categoryName());
         return;
@@ -103,24 +105,28 @@ QColor SARibbonContextCategory::contextColor() const
 
 QWidget* SARibbonContextCategory::parentWidget() const
 {
-    return (qobject_cast< QWidget* >(parent()));
+    return (qobject_cast<QWidget*>(parent()));
 }
 
 bool SARibbonContextCategory::eventFilter(QObject* watched, QEvent* e)
 {
-    if (nullptr == watched) {
+    if (nullptr == watched)
+    {
         return (false);
     }
-    switch (e->type()) {
+    switch (e->type())
+    {
     case QEvent::Close: {
-        SARibbonCategory* c = qobject_cast< SARibbonCategory* >(watched);
-        if (c) {
+        SARibbonCategory* c = qobject_cast<SARibbonCategory*>(watched);
+        if (c)
+        {
 #ifdef SA_RIBBON_DEBUG_HELP_DRAW
             qDebug() << " -----------> close event";
 #endif
             takeCategory(c);
         }
-    } break;
+    }
+    break;
 
     default:
         break;
@@ -155,18 +161,19 @@ void SARibbonContextCategory::setContextTitle(const QString& contextTitle)
  */
 SARibbonCategory* SARibbonContextCategory::categoryPage(int index)
 {
-    return (d_ptr->categoryDataList[ index ].categoryPage);
+    return (d_ptr->categoryDataList[index].categoryPage);
 }
 
 /**
  * @brief 获取所有的SARibbonCategory*
  * @return
  */
-QList< SARibbonCategory* > SARibbonContextCategory::categoryList() const
+QList<SARibbonCategory*> SARibbonContextCategory::categoryList() const
 {
-    QList< SARibbonCategory* > res;
+    QList<SARibbonCategory*> res;
 
-    for (const SAPrivateRibbonCategoryData& c : qAsConst(d_ptr->categoryDataList)) {
+    for (const SAPrivateRibbonCategoryData& c : qAsConst(d_ptr->categoryDataList))
+    {
         res.append(c.categoryPage);
     }
     return (res);
@@ -179,8 +186,10 @@ QList< SARibbonCategory* > SARibbonContextCategory::categoryList() const
  */
 bool SARibbonContextCategory::takeCategory(SARibbonCategory* category)
 {
-    for (int i = 0; i < d_ptr->categoryDataList.size(); ++i) {
-        if (d_ptr->categoryDataList[ i ].categoryPage == category) {
+    for (int i = 0; i < d_ptr->categoryDataList.size(); ++i)
+    {
+        if (d_ptr->categoryDataList[i].categoryPage == category)
+        {
             d_ptr->categoryDataList.takeAt(i);
             return (true);
         }
@@ -195,8 +204,10 @@ bool SARibbonContextCategory::takeCategory(SARibbonCategory* category)
  */
 bool SARibbonContextCategory::isHaveCategory(SARibbonCategory* category) const
 {
-    for (int i = 0; i < d_ptr->categoryDataList.size(); ++i) {
-        if (d_ptr->categoryDataList[ i ].categoryPage == category) {
+    for (int i = 0; i < d_ptr->categoryDataList.size(); ++i)
+    {
+        if (d_ptr->categoryDataList[i].categoryPage == category)
+        {
             return (true);
         }
     }
@@ -205,8 +216,9 @@ bool SARibbonContextCategory::isHaveCategory(SARibbonCategory* category) const
 
 void SARibbonContextCategory::onCategoryTitleChanged(const QString& title)
 {
-    SARibbonCategory* category = qobject_cast< SARibbonCategory* >(sender());
-    if (category) {
+    SARibbonCategory* category = qobject_cast<SARibbonCategory*>(sender());
+    if (category)
+    {
         emit categoryTitleChanged(category, title);
     }
 }

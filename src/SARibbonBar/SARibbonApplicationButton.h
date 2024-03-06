@@ -11,10 +11,10 @@
 class SA_RIBBON_EXPORT SARibbonApplicationButton : public QToolButton
 {
     Q_OBJECT
-public:
+  public:
     SARibbonApplicationButton(QWidget* parent = nullptr);
     SARibbonApplicationButton(const QString& text, QWidget* parent = nullptr);
     SARibbonApplicationButton(const QIcon& icon, const QString& text, QWidget* parent = nullptr);
 };
 
-#endif  // SARIBBONAPPLICATIONBUTTON_H
+#endif // SARIBBONAPPLICATIONBUTTON_H

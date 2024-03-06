@@ -10,19 +10,20 @@
 class SAColorPaletteGridWidget::PrivateData
 {
     SA_COLOR_WIDGETS_DECLARE_PUBLIC(SAColorPaletteGridWidget)
-public:
+  public:
     PrivateData(SAColorPaletteGridWidget* p);
-    //生成color palette
-    QList< QColor > makeColorPalette(const QList< QColor >& clrList) const;
+    // 生成color palette
+    QList<QColor> makeColorPalette(const QList<QColor>& clrList) const;
 
-public:
-    QList< int > mFactor { 180, 160, 140, 75, 50 };  ///< palette的比例因子，将调用QColor的lighter函数执行
-    QVBoxLayout* mLayout { nullptr };                ///< 垂直布局
-    SAColorGridWidget* mMainColorList { nullptr };   ///< 这个用于显示标准颜色
-    SAColorGridWidget* mPaletteColorGrid { nullptr };  ///< 这个用于生成3行亮色，2行暗色的palette
+  public:
+    QList<int>         mFactor{180, 160, 140, 75, 50}; ///< palette的比例因子，将调用QColor的lighter函数执行
+    QVBoxLayout*       mLayout{nullptr};               ///< 垂直布局
+    SAColorGridWidget* mMainColorList{nullptr};        ///< 这个用于显示标准颜色
+    SAColorGridWidget* mPaletteColorGrid{nullptr};     ///< 这个用于生成3行亮色，2行暗色的palette
 };
 
-SAColorPaletteGridWidget::PrivateData::PrivateData(SAColorPaletteGridWidget* p) : q_ptr(p)
+SAColorPaletteGridWidget::PrivateData::PrivateData(SAColorPaletteGridWidget* p)
+    : q_ptr(p)
 {
     mLayout = new QVBoxLayout(p);
     p->setLayout(mLayout);
@@ -39,11 +40,13 @@ SAColorPaletteGridWidget::PrivateData::PrivateData(SAColorPaletteGridWidget* p) 
     mPaletteColorGrid->setVerticalSpacing(0);
 }
 
-QList< QColor > SAColorPaletteGridWidget::PrivateData::makeColorPalette(const QList< QColor >& clrList) const
+QList<QColor> SAColorPaletteGridWidget::PrivateData::makeColorPalette(const QList<QColor>& clrList) const
 {
-    QList< QColor > res;
-    for (int f : qAsConst(mFactor)) {
-        for (const QColor& c : qAsConst(clrList)) {
+    QList<QColor> res;
+    for (int f : qAsConst(mFactor))
+    {
+        for (const QColor& c : qAsConst(clrList))
+        {
             res.append(c.lighter(f));
         }
     }
@@ -57,7 +60,8 @@ QList< QColor > SAColorPaletteGridWidget::PrivateData::makeColorPalette(const QL
  * @brief 使用默认的标准颜色生成一个color palette
  * @param par
  */
-SAColorPaletteGridWidget::SAColorPaletteGridWidget(QWidget* par) : QWidget(par), d_ptr(new PrivateData(this))
+SAColorPaletteGridWidget::SAColorPaletteGridWidget(QWidget* par)
+    : QWidget(par), d_ptr(new PrivateData(this))
 {
     init();
     setColorList(SA::getStandardColorList());
@@ -68,7 +72,7 @@ SAColorPaletteGridWidget::SAColorPaletteGridWidget(QWidget* par) : QWidget(par),
  * @param cls
  * @param par
  */
-SAColorPaletteGridWidget::SAColorPaletteGridWidget(const QList< QColor >& cls, QWidget* par)
+SAColorPaletteGridWidget::SAColorPaletteGridWidget(const QList<QColor>& cls, QWidget* par)
     : QWidget(par), d_ptr(new PrivateData(this))
 {
     init();
@@ -91,7 +95,7 @@ void SAColorPaletteGridWidget::init()
  * @brief 设置颜色系列，颜色系列的个数决定了主色卡的数量，palette色卡会根据factor进行生成
  * @param cls
  */
-void SAColorPaletteGridWidget::setColorList(const QList< QColor >& cls)
+void SAColorPaletteGridWidget::setColorList(const QList<QColor>& cls)
 {
     d_ptr->mMainColorList->setColumnCount(0);
     d_ptr->mMainColorList->setColorList(cls);
@@ -103,7 +107,7 @@ void SAColorPaletteGridWidget::setColorList(const QList< QColor >& cls)
  * @brief 获取颜色系列
  * @return
  */
-QList< QColor > SAColorPaletteGridWidget::getColorList() const
+QList<QColor> SAColorPaletteGridWidget::getColorList() const
 {
     return d_ptr->mMainColorList->getColorList();
 }
@@ -114,7 +118,7 @@ QList< QColor > SAColorPaletteGridWidget::getColorList() const
  * 默认为{ 180, 160, 140, 75, 50 },相当于会有5行，每个系数会对标准颜色执行QColor::lighter操作
  * @param factor
  */
-void SAColorPaletteGridWidget::setFactor(const QList< int >& factor)
+void SAColorPaletteGridWidget::setFactor(const QList<int>& factor)
 {
     d_ptr->mFactor = factor;
     d_ptr->mPaletteColorGrid->setColorList(d_ptr->makeColorPalette(d_ptr->mMainColorList->getColorList()));
@@ -124,7 +128,7 @@ void SAColorPaletteGridWidget::setFactor(const QList< int >& factor)
  * @brief 获取色卡
  * @return
  */
-QList< int > SAColorPaletteGridWidget::getFactor() const
+QList<int> SAColorPaletteGridWidget::getFactor() const
 {
     return d_ptr->mFactor;
 }

@@ -1,7 +1,6 @@
 ﻿#include "SARibbonComboBox.h"
 
-
-SARibbonComboBox::SARibbonComboBox(QWidget *parent)
+SARibbonComboBox::SARibbonComboBox(QWidget* parent)
     : QComboBox(parent)
 {
 }
